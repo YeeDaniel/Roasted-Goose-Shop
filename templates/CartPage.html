@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-tw">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,10 +51,10 @@
                     <span class="closebtnLogin" onclick="closeLoginForm()" title="Close loginOverlay"> &#215 </span>
                     <h2>登入</h2>
                     <form>
-                        <label for="" class="Email"><b>Email</b></label>
-                        <input id="bgc" type="email" placeholder="Email"  required>
-                        <label for="" class="password"><b>密碼</b></label>
-                        <input id="bgc" type="password" placeholder="密碼" id="password" required>
+                        <label for="email" class="Email"><b>Email</b></label>
+                        <input class="bgc" id="email" type="email" placeholder="Email"  required>
+                        <label for="password" class="password"><b>密碼</b></label>
+                        <input class="bgc" id="password" type="password" placeholder="密碼" id="password" required>
                         <input type="submit" value="點我登入">
                         <div id="line"></div>
                         <div class="googleLogin">
@@ -63,7 +63,7 @@
                                 <span>登入Google以繼續</span>
                             </button>
                         </div>
-                        <p>還沒有帳戶?    <span onclick="openSignUpAndCloseLogin()">點我註冊！</span></p>
+                        <p>還沒有帳戶?&emsp;&emsp;<span onclick="openSignUpAndCloseLogin()">點我註冊！</span></p>
                     </form>
                 </div>
             </div>
@@ -89,12 +89,12 @@
                     <span class="closebtnLogin" onclick="closeSignUpForm()" title="Close SignUpOverlay"> &#215 </span>
                     <h2>註冊</h2>
                     <form>
-                        <label for="" class="username"><b>使用者名稱</b></label>
-                        <input id="bgc" type="text" placeholder="使用者名稱" required>
-                        <label for="" class="Email"><b>Email</b></label>
-                        <input id="bgc" type="email" placeholder="Email" required>
-                        <label for="" class="password"><b>密碼</b></label>
-                        <input id="bgc" type="password" placeholder="密碼" required>
+                        <label for="username" class="username"><b>使用者名稱</b></label>
+                        <input class="bgc" id="username" type="text" placeholder="使用者名稱" required>
+                        <label for="email" class="Email"><b>Email</b></label>
+                        <input class="bgc" id="email" type="email" placeholder="Email" required>
+                        <label for="password" class="password"><b>密碼</b></label>
+                        <input class="bgc" id="password" type="password" placeholder="密碼" required>
                         <input type="submit" value="點我註冊">
                     </form>
                 </div>
@@ -199,7 +199,7 @@
         </div>
     </div>
 </body>
-<script src="cart.js"></script>
+<script></script>
 </html>
 
 <style>
@@ -405,7 +405,7 @@ body {
     border-radius: 5px;
 }
 
-#bgc {
+.bgc {
     background-color: #808080;
     opacity: 0.5;  /* 根據你的需求調整 */
 }
