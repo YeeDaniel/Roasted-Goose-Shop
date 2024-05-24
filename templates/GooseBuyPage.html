@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GooseBuyPage</title>
+</head>
+<body>
+    <div id="MyRoastedGooseBuyOverlay" class="RoastedGooseBuyOverlay">
+        <div class="wrapBuy">
+            <span class="closebtnBuy" onclick="closeRoastedGooseBuyForm()" title="Close RoastedGooseBuyOverlay"> &#215 </span>
+            <h2>金牌港式燒鵝</h2>
+            <form class="radio-formBuy">
+                <input id="roastedGooseBuyChoice1" type="radio" name="roastedGoose" value="whole">
+                <label for="roastedGooseBuyChoice1" class="whole"><b>一隻 $1500</b></label>
+            
+                <input id="roastedGooseBuyChoice2" type="radio" name="roastedGoose" value="half">
+                <label for="roastedGooseBuyChoice2" class="half"><b>半隻 $800</b></label>
+            
+            </form>
+            <div class="otherBuy">
+                <label for="password" class="password"><b>其他數量</b></label>
+                <input type="other" placeholder="Ex:2" id="password">
+            </div>
+        
+            <a href="{{ url_for('default.cart') }}"><input type="submit" value="直接購買" ></a>
+        </div>
+    </div>
+    <button class="openbtnBuy" onclick="openRoastedGooseBuyForm()">直接購買</button>
+    
+    <script>
+        function openRoastedGooseBuyForm() {
+            document.getElementById("MyRoastedGooseBuyOverlay").style.display = "block";
+        }
+    
+        function closeRoastedGooseBuyForm() {
+            document.getElementById("MyRoastedGooseBuyOverlay").style.display = "none";
+        }
+        // 打開 "SignUp" 的 Overlay 並關閉 "Login" 的 Overlay
+        function openSignUpAndCloseLogin() {
+        document.getElementById('mySignUpOverlay').style.display = 'block';
+        document.getElementById('myLoginOverlay').style.display = 'none';
+    }
+    </script>
+</body>
+</html>
+<style>
+
+.wrapBuy {
+    width: 30%;  /* 修改的行 */
+    height: 40%;  /* 修改的行 */
+    position: absolute;  /* 修改的行 */
+    top: 40%;  /* 修改的行 */
+    left: 50%;  /* 修改的行 */
+    transform: translate(-50%, -50%);  /* 修改的行 */
+    min-width: 350px;
+    margin: auto;
+    padding: 20px;
+    background: #E0D6C3;
+    margin-top: 100px;
+    border-radius: 20px;
+}
+
+.wrapBuy form {
+    margin-top: 50px;
+}
+
+.wrapBuy input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border: none;
+    outline: none;
+    border: 1px solid gray;
+    font-style: 15px;
+    border-radius: 5px;
+}
+
+.wrapBuy h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 2em;
+    text-align: center;
+}
+
+.wrapBuy input[type="submit"] {
+    font-size: 16px;
+    margin-top: 30px;
+    color: #fff;
+    font-weight: bold;
+    background: #EB6D20;
+    border: 1px solid #fff;
+    cursor: pointer;
+}
+
+.wrapBuy input[type="submit"]:hover {
+    background: #846E82;
+    color: #fff;
+}
+
+.wrapBuy input[type="google"] {
+    font-size: 16px;
+    margin-top: 30px;
+    color: #fff;
+    font-weight: bold;
+    background: #000;
+    border: 1px solid #fff;
+    cursor: pointer;
+    text-align: center;
+}
+
+.wrapBuy input[type="google"]:hover {
+    background: #EB6D20;
+    color: #fff;
+}
+
+.wrapBuy input[type="clickMeRegister"] {
+    font-size: 16px;
+    margin-top: 30px;
+    color: #fff;
+    font-weight: bold;
+    background: #000;
+    cursor: pointer;
+    text-align: center;
+}
+
+.wrapBuy p {
+    font-size: 1em;
+    margin-top: 30px;
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+}
+
+.wrapBuy p span {
+    color: #EB6D20;
+    cursor: pointer;
+
+}
+
+.openbtnBuy {
+    background: #f1f1f1;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    float: right;
+}
+
+.openbtnBuy:hover {
+    background: #EB6D20;
+}
+
+.RoastedGooseBuyOverlay {
+    height: 100%;
+    width: 100%;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.closebtnBuy {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+    cursor: pointer;
+    color: gray;
+}
+
+.closebtnBuy:hover {
+    color: #EB6D20;
+}
+
+.radio-formBuy {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.radio-formBuy label {
+    display: inline-block;
+    width: 20vw;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.25em;
+    cursor: pointer;
+    margin-left: 2vw;
+    margin-bottom: 0.75vh;
+}
+
+#roastedGooseBuyChoice1, #roastedGooseBuyChoice2 {
+    width: 8%;
+}
+
+.otherBuy {
+    margin-top: 2vh;
+}
+/* end buy*/
+</style>

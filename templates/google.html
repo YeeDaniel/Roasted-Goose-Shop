@@ -1,0 +1,40 @@
+<html lang="zh-tw">
+    <head>
+        <title>Google Sign-In</title>
+        <meta
+            name="google-signin-client_id"
+            content="{{ google_oauth2_client_id }}"
+        />
+        <script
+            src="https://accounts.google.com/gsi/client"
+            async
+            defer
+        ></script>
+    </head>
+    <body>
+        <div class="g_id_signin" data-onsuccess="onSignIn"></div>
+        <script>
+            window.onload = function () {
+                google.accounts.id.initialize({
+                    client_id: "{{ google_oauth2_client_id }}",
+                    callback: handleCredentialResponse,
+                });
+                google.accounts.id.renderButton(
+                    document.querySelector(".g_id_signin"),
+                    { theme: "outline", size: "large" } // customization attributes
+                );
+            };
+
+            function handleCredentialResponse(response) {
+                // Send ID token to server
+                fetch("/google_sign_in", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ id_token: response.credential }),
+                });
+            }
+        </script>
+    </body>
+</html>

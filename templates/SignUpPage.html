@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUpPage</title>
+</head>
+<body>
+
+<div id="mySignUpOverlay" class="SignUpOverlay">
+    <div class="wrapSignUp">
+        <span class="closebtnSignUp" onclick="closeSignUpForm()" title="Close SignUpOverlay"> &#215 </span>
+        <h2>註冊</h2>
+        <form>
+            <label for="" class="username"><b>使用者名稱</b></label>
+            <input type="text" placeholder="使用者名稱" required>
+            <label for="" class="Email"><b>Email</b></label>
+            <input type="email" placeholder="Email" required>
+            <label for="" class="password"><b>密碼</b></label>
+            <input type="password" placeholder="密碼" required>
+            <input type="submit" value="點我註冊">
+        </form>
+    </div>
+</div>
+<button class="openbtnSignUp" onclick="openSignUpForm()">註冊</button>
+<script>
+    function openSignUpForm() {
+        document.getElementById("mySignUpOverlay").style.display = "block";
+    }
+
+    function closeSignUpForm() {
+        document.getElementById("mySignUpOverlay").style.display = "none";
+    }
+</script>
+</body>
+</html>
+
+<style>
+
+/* SignUp */
+.wrapSignUp {
+    width: 50%;  /* 修改的行 */
+    height: 50%;  /* 修改的行 */
+    position: absolute;  /* 修改的行 */
+    top: 40%;  /* 修改的行 */
+    left: 50%;  /* 修改的行 */
+    transform: translate(-50%, -50%);  /* 修改的行 */
+    min-width: 350px;
+    margin: auto;
+    padding: 20px;
+    background: #E0D6C3;
+    margin-top: 100px;
+    border-radius: 20px;
+}
+
+.wrapSignUp form {
+    margin-top: 50px;
+}
+
+.wrapSignUp input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border: none;
+    outline: none;
+    border: 1px solid gray;
+    font-style: 15px;
+    border-radius: 5px;
+}
+
+.wrapSignUp h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 2em;
+    text-align: center;
+}
+
+.wrapSignUp input[type="submit"] {
+    font-size: 16px;
+    margin-top: 30px;
+    color: #fff;
+    font-weight: bold;
+    background: #846E82;
+    border: 1px solid #fff;
+    cursor: pointer;
+}
+
+.wrapSignUp input[type="submit"]:hover {
+    background: #EB6D20;
+    color: #fff;
+}
+
+.openbtnSignUp {
+    background: #f1f1f1;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    float: right;
+}
+
+.openbtnSignUp:hover {
+    background: #EB6D20;
+}
+
+.SignUpOverlay {
+    height: 100%;
+    width: 100%;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.closebtnSignUp {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.closebtnSignUp:hover {
+    color: #EB6D20;
+}
+/* end SignUp */
+</style>

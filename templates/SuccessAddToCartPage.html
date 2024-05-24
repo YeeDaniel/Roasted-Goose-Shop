@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuccessAddToCartPage</title>
+</head>
+<body>
+    <div id="MySuccessRoastedGooseAddCartOverlay" class="SuccessRoastedGooseAddCartOverlay">
+        <div class="wrapSuccess">
+            <span class="closebtnSuccess" onclick="closeRoastedGooseSuccessAddCartForm()" title="Close SuccessRoastedGooseAddCartOverlay"> &#215 </span>
+            <h2>已加入購物車</h2>
+            
+        </div>
+    </div>
+    <button class="openbtnSuccess" onclick="openRoastedGooseSuccessAddCartForm()">加入購物車</button>
+    
+    <script>
+        function openRoastedGooseSuccessAddCartForm() {
+            document.getElementById("MySuccessRoastedGooseAddCartOverlay").style.display = "block";
+        }
+    
+        function closeRoastedGooseSuccessAddCartForm() {
+            document.getElementById("MySuccessRoastedGooseAddCartOverlay").style.display = "none";
+        }
+    </script>
+</body>
+</html>
+<style>
+
+.wrapSuccess {
+    width: 20%;  
+    height: 20%;  
+    position: absolute;  /* 修改的行 */
+    top: 30%;  /* 修改的行 */
+    left: 50%;  /* 修改的行 */
+    transform: translate(-50%, -50%);  /* 修改的行 */
+    min-width: 350px;
+    margin: auto;
+    
+    background: #E0D6C3;
+    margin-top: 100px;
+    border-radius: 20px;
+}
+
+.wrapSuccess h2 {
+    margin-top: 8vh;
+    padding: 0;
+    font-size: 2em;
+    text-align: center;
+}
+
+.openbtnSuccess {
+    background: #f1f1f1;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    float: right;
+}
+
+.openbtnSuccess:hover {
+    background: #EB6D20;
+}
+
+.SuccessRoastedGooseAddCartOverlay {
+    height: 100%;
+    width: 100%;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.closebtnSuccess {
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    font-size: 48px;
+    cursor: pointer;
+    color: gray;
+}
+
+.closebtnSuccess:hover {
+    color: #EB6D20;
+}
+/* end success add cart */
+</style>
