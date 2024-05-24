@@ -12,7 +12,7 @@
         </div>
         <div class="menu">
             <!-- 你的菜單、關於我們、港式燒鵝、蜜汁叉燒、香濃滷水、聯絡我們、購物車的連結放在這裡 -->
-            <a href="{{ url_for('default.menu') }}">菜單</a>
+            <a href="{{ url_for('default.menu') }}" id="menu-link">菜單</a>
             <a href="{{ url_for('default.about') }}">關於我們</a>
             <a href="{{ url_for('default.roastedGoose') }}">港式燒鵝</a>
             <a href="{{ url_for('default.barbecuePork') }}">蜜汁叉燒</a>
@@ -571,7 +571,7 @@ body {
     background: url('/static/images/2024Menu.png') no-repeat center;
     background-size: auto 100%;
     width: 100vw;
-    height: 92vh;
+    height: 85vh;
     display: inline-block;
     opacity: 1; /* 設置圖片的不透明度為1 */
     margin-top: 20px;
