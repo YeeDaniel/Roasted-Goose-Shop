@@ -51,10 +51,10 @@
                     <span class="closebtnLogin" onclick="closeLoginForm()" title="Close loginOverlay"> &#215 </span>
                     <h2>登入</h2>
                     <form>
-                        <label for="" class="Email"><b>Email</b></label>
-                        <input id="bgc" type="email" placeholder="Email"  required>
-                        <label for="" class="password"><b>密碼</b></label>
-                        <input id="bgc" type="password" placeholder="密碼" id="password" required>
+                        <label for="email" class="Email"><b>Email</b></label>
+                        <input class="bgc" id="email" type="email" placeholder="Email"  required>
+                        <label for="password" class="password"><b>密碼</b></label>
+                        <input class="bgc" id="password" type="password" placeholder="密碼" id="password" required>
                         <input type="submit" value="點我登入">
                         <div id="line"></div>
                         <div class="googleLogin">
@@ -89,12 +89,12 @@
                     <span class="closebtnLogin" onclick="closeSignUpForm()" title="Close SignUpOverlay"> &#215 </span>
                     <h2>註冊</h2>
                     <form>
-                        <label for="" class="username"><b>使用者名稱</b></label>
-                        <input id="bgc" type="text" placeholder="使用者名稱" required>
-                        <label for="" class="Email"><b>Email</b></label>
-                        <input id="bgc" type="email" placeholder="Email" required>
-                        <label for="" class="password"><b>密碼</b></label>
-                        <input id="bgc" type="password" placeholder="密碼" required>
+                        <label for="username" class="username"><b>使用者名稱</b></label>
+                        <input class="bgc" id="username" type="text" placeholder="使用者名稱" required>
+                        <label for="email" class="Email"><b>Email</b></label>
+                        <input class="bgc" id="email" type="email" placeholder="Email" required>
+                        <label for="password" class="password"><b>密碼</b></label>
+                        <input class="bgc" id="password" type="password" placeholder="密碼" required>
                         <input type="submit" value="點我註冊">
                     </form>
                 </div>
@@ -123,7 +123,7 @@
             </form>
             <div class="otherBuy">
                 <label for="password" class="password"><b>其他數量</b></label>
-                <input type="other" placeholder="Ex:2" id="password">
+                <input class="bgc" type="other" placeholder="Ex:2" id="password">
             </div>
         
             <a href="{{ url_for('default.cart') }}"><input type="submit" value="直接購買"></a>
@@ -155,7 +155,7 @@
             </form>
             <div class="otherAddCart">
                 <label for="password" class="password"><b>其他數量</b></label>
-                <input type="other" placeholder="Ex:2" id="password">
+                <input class="bgc" type="other" placeholder="Ex:2" id="password">
             </div>
         
             <input type="submit" value="加入購物車" onclick="openSuccessAndCloseAddCart()">
@@ -424,9 +424,13 @@ body {
     border-radius: 5px;
 }
 
-#bgc {
+.bgc {
     background-color: #808080;
     opacity: 0.5;  /* 根據你的需求調整 */
+}
+
+input::placeholder {
+    color: #000000;  /* 根據你的需求調整 */
 }
 
 .wrapLogin input::placeholder {
