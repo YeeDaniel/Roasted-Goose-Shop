@@ -25,7 +25,7 @@
                     <a href="{{ url_for('default.gooseWing') }}">鵝翅</a>
                     <a href="{{ url_for('default.goostFeet') }}">鵝腳</a>
                     <a href="{{ url_for('default.foieGras') }}" id="link">鵝肝</a>
-                    <a href="{{ url_for('default.GooseGzzards') }}">鵝胗</a>
+                    <a href="{{ url_for('default.GooseGizzards') }}">鵝胗</a>
                 </div>
             </div>
             <div class="dropdown">
@@ -109,21 +109,21 @@
     <!-- end navbar-->
 
     <!-- BuyGooseWingPage -->
-    <div id="MyRoastedGooseBuyOverlay" class="RoastedGooseBuyOverlay">
+    <div id="MyFoieGrasBuyOverlay" class="blackbgc">
         <div class="wrapBuy">
             <span class="closebtnBuy" onclick="closeRoastedGooseBuyForm()" title="Close RoastedGooseBuyOverlay"> &#215 </span>
             <h2>陳年香滷鵝肝</h2>
             <form class="radio-formBuy">
-                <input id="roastedGooseBuyChoice1" type="radio" name="roastedGoose" value="whole">
-                <label for="roastedGooseBuyChoice1" class="whole"><b>一盒 $100</b></label>
+                <input id="foieGrasBuyChoice1" type="radio" name="foieGras" value="one">
+                <label for="foieGrasBuyChoice1" class="one"><b>一盒 $100</b></label>
             
-                <input id="roastedGooseBuyChoice2" type="radio" name="roastedGoose" value="half">
-                <label for="roastedGooseBuyChoice2" class="half"><b>兩盒 $200</b></label>
+                <input id="foieGrasBuyChoice2" type="radio" name="foieGras" value="two">
+                <label for="foieGrasBuyChoice2" class="two"><b>兩盒 $200</b></label>
             
             </form>
             <div class="otherBuy">
-                <label for="password" class="password"><b>其他數量</b></label>
-                <input class="bgc" type="other" placeholder="Ex:3" id="password">
+                <label for="otherQuantity" class="password"><b>其他數量</b></label>
+                <input class="bgc" type="other" placeholder="Ex:3" id="otherQuantity">
             </div>
         
             <a href="{{ url_for('default.cart') }}"><input type="submit" value="直接購買"></a>
@@ -132,30 +132,30 @@
     
     <script>
         function openRoastedGooseBuyForm() {
-            document.getElementById("MyRoastedGooseBuyOverlay").style.display = "block";
+            document.getElementById("MyFoieGrasBuyOverlay").style.display = "block";
         }
     
         function closeRoastedGooseBuyForm() {
-            document.getElementById("MyRoastedGooseBuyOverlay").style.display = "none";
+            document.getElementById("MyFoieGrasBuyOverlay").style.display = "none";
         }
     </script>
 
     <!-- AddCart -->
-    <div id="MyRoastedGooseAddCartOverlay" class="RoastedGooseAddCartOverlay">
+    <div id="MyFoieGrasAddCartOverlay" class="blackbgc">
         <div class="wrapAddCart">
             <span class="closebtnAddCart" onclick="closeRoastedGooseAddCartForm()" title="Close RoastedGooseAddCartOverlay"> &#215 </span>
             <h2>陳年香滷鵝肝</h2>
             <form class="radio-formAddCart">
-                <input id="roastedGooseAddCartChoice2" type="radio" name="roastedGoose" value="whole">
-                <label for="roastedGooseAddCartChoice2" class="whole"><b>一盒 $100</b></label>
+                <input id="foieGrasAddCartChoice1" type="radio" name="foieGras" value="one">
+                <label for="foieGrasAddCartChoice1" class="one"><b>一盒 $100</b></label>
             
-                <input id="roastedGooseAddCartChoice2" type="radio" name="roastedGoose" value="half">
-                <label for="roastedGooseAddCartChoice2" class="half"><b>兩盒 $200</b></label>
+                <input id="foieGrasAddCartChoice2" type="radio" name="foieGras" value="two">
+                <label for="foieGrasAddCartChoice2" class="two"><b>兩盒 $200</b></label>
             
             </form>
             <div class="otherAddCart">
-                <label for="password" class="password"><b>其他數量</b></label>
-                <input class="bgc" type="other" placeholder="Ex:3" id="password">
+                <label for="otherQuantity" class="password"><b>其他數量</b></label>
+                <input class="bgc" type="other" placeholder="Ex:3" id="otherQuantity">
             </div>
         
             <input type="submit" value="加入購物車" onclick="openSuccessAndCloseAddCart()">
@@ -164,16 +164,16 @@
     
     <script>
         function openRoastedGooseAddCartForm() {
-            document.getElementById("MyRoastedGooseAddCartOverlay").style.display = "block";
+            document.getElementById("MyFoieGrasAddCartOverlay").style.display = "block";
         }
     
         function closeRoastedGooseAddCartForm() {
-            document.getElementById("MyRoastedGooseAddCartOverlay").style.display = "none";
+            document.getElementById("MyFoieGrasAddCartOverlay").style.display = "none";
         }
         // 打開 "SignUp" 的 Overlay 並關閉 "Login" 的 Overlay
         function openSuccessAndCloseAddCart() {
         document.getElementById('MySuccessRoastedGooseAddCartOverlay').style.display = 'block';
-        document.getElementById('MyRoastedGooseAddCartOverlay').style.display = 'none';
+        document.getElementById('MyFoieGrasAddCartOverlay').style.display = 'none';
     }
     </script>
 
@@ -681,7 +681,7 @@ input::placeholder {
     background: #EB6D20;
 }
 
-.RoastedGooseBuyOverlay {
+.blackbgc {
     height: 100%;
     width: 100%;
     display: none;
@@ -722,7 +722,7 @@ input::placeholder {
     margin-bottom: 0.75vh;
 }
 
-#roastedGooseBuyChoice1, #roastedGooseBuyChoice2 {
+#foieGrasBuyChoice1, #foieGrasBuyChoice2 {
     width: 8%;
 }
 
@@ -838,17 +838,6 @@ input::placeholder {
     background: #EB6D20;
 }
 
-.RoastedGooseAddCartOverlay {
-    height: 100%;
-    width: 100%;
-    display: none;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
 .SignUpOverlay {
     height: 100%;
     width: 100%;
@@ -890,7 +879,7 @@ input::placeholder {
     margin-bottom: 0.75vh;
 }
 
-#roastedGooseAddCartChoice2, #roastedGooseAddCartChoice2 {
+#foieGrasAddCartChoice1, #foieGrasAddCartChoice2 {
     width: 8%;
 }
 
@@ -978,7 +967,7 @@ input::placeholder {
 }
 
 .RoastedGooseBackGround .left .roasted-goose {
-    background: url('/static/images/2023ChampionRoastedGoose.jpg') no-repeat;
+    background: url('/static/images/FoieGras.jpg') no-repeat;
     background-size: 100% auto;
     height: 80vh;
     width: 50vw;

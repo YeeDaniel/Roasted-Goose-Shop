@@ -25,7 +25,7 @@
                     <a href="{{ url_for('default.gooseWing') }}">鵝翅</a>
                     <a href="{{ url_for('default.goostFeet') }}">鵝腳</a>
                     <a href="{{ url_for('default.foieGras') }}">鵝肝</a>
-                    <a href="{{ url_for('default.GooseGzzards') }}">鵝胗</a>
+                    <a href="{{ url_for('default.GooseGizzards') }}">鵝胗</a>
                 </div>
             </div>
             <div class="dropdown">
@@ -109,21 +109,21 @@
     <!-- end navbar-->
 
     <!-- BuyRoastedGoose -->
-    <div id="MyRoastedGooseBuyOverlay" class="RoastedGooseBuyOverlay">
+    <div id="MyRoastedGooseBuyOverlay" class="blackbgc">
         <div class="wrapBuy">
             <span class="closebtnBuy" onclick="closeRoastedGooseBuyForm()" title="Close RoastedGooseBuyOverlay"> &#215 </span>
             <h2>金牌港式燒鵝</h2>
             <form class="radio-formBuy">
-                <input id="roastedGooseBuyChoice1" type="radio" name="roastedGoose" value="whole">
-                <label for="roastedGooseBuyChoice1" class="whole"><b>一隻 $1500</b></label>
+                <input id="roastedGooseBuyChoice1" type="radio" name="roastedGoose" value="one">
+                <label for="roastedGooseBuyChoice1" class="one"><b>一隻 $1500</b></label>
             
                 <input id="roastedGooseBuyChoice2" type="radio" name="roastedGoose" value="half">
                 <label for="roastedGooseBuyChoice2" class="half"><b>半隻 $800</b></label>
             
             </form>
             <div class="otherBuy">
-                <label for="password" class="password"><b>其他數量</b></label>
-                <input class="bgc" type="other" placeholder="Ex:2" id="password">
+                <label for="otherQuantity" class="password"><b>其他數量</b></label>
+                <input class="bgc" type="other" placeholder="Ex:2" id="otherQuantity">
             </div>
         
             <a href="{{ url_for('default.cart') }}"><input type="submit" value="直接購買"></a>
@@ -141,21 +141,21 @@
     </script>
 
     <!-- AddCart -->
-    <div id="MyRoastedGooseAddCartOverlay" class="RoastedGooseAddCartOverlay">
+    <div id="MyRoastedGooseAddCartOverlay" class="blackbgc">
         <div class="wrapAddCart">
             <span class="closebtnAddCart" onclick="closeRoastedGooseAddCartForm()" title="Close RoastedGooseAddCartOverlay"> &#215 </span>
             <h2>金牌港式燒鵝</h2>
             <form class="radio-formAddCart">
-                <input id="roastedGooseAddCartChoice2" type="radio" name="roastedGoose" value="whole">
-                <label for="roastedGooseAddCartChoice2" class="whole"><b>一隻 $1500</b></label>
+                <input id="roastedGooseAddCartChoice2" type="radio" name="roastedGoose" value="one">
+                <label for="roastedGooseAddCartChoice2" class="one"><b>一隻 $1500</b></label>
             
                 <input id="roastedGooseAddCartChoice2" type="radio" name="roastedGoose" value="half">
                 <label for="roastedGooseAddCartChoice2" class="half"><b>半隻 $800</b></label>
             
             </form>
             <div class="otherAddCart">
-                <label for="password" class="password"><b>其他數量</b></label>
-                <input class="bgc" type="other" placeholder="Ex:2" id="password">
+                <label for="otherQuantity" class="password"><b>其他數量</b></label>
+                <input class="bgc" type="other" placeholder="Ex:2" id="otherQuantity">
             </div>
         
             <input type="submit" value="加入購物車" onclick="openSuccessAndCloseAddCart()">
@@ -680,17 +680,6 @@ input::placeholder {
     background: #EB6D20;
 }
 
-.RoastedGooseBuyOverlay {
-    height: 100%;
-    width: 100%;
-    display: none;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
 .closebtnBuy {
     position: absolute;
     top: 20px;
@@ -837,7 +826,7 @@ input::placeholder {
     background: #EB6D20;
 }
 
-.RoastedGooseAddCartOverlay {
+.blackbgc {
     height: 100%;
     width: 100%;
     display: none;

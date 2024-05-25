@@ -25,7 +25,7 @@
                     <a href="{{ url_for('default.gooseWing') }}">鵝翅</a>
                     <a href="{{ url_for('default.goostFeet') }}">鵝腳</a>
                     <a href="{{ url_for('default.foieGras') }}">鵝肝</a>
-                    <a href="{{ url_for('default.GooseGzzards') }}">鵝胗</a>
+                    <a href="{{ url_for('default.GooseGizzards') }}">鵝胗</a>
                 </div>
             </div>
             <div class="dropdown">
@@ -109,21 +109,21 @@
     <!-- end navbar-->
 
     <!-- BuyBarbecuePork -->
-    <div id="MyRoastedGooseBuyOverlay" class="RoastedGooseBuyOverlay">
+    <div id="MyBarbecueBuyOverlay" class="blackBgc">
         <div class="wrapBuy">
-            <span class="closebtnBuy" onclick="closeRoastedGooseBuyForm()" title="Close RoastedGooseBuyOverlay"> &#215 </span>
+            <span class="closebtnBuy" onclick="closeRoastedGooseBuyForm()" title="Close BarbecuePork"> &#215 </span>
             <h2>軟嫩蜜汁叉燒</h2>
             <form class="radio-formBuy">
-                <input id="roastedGooseBuyChoice1" type="radio" name="roastedGoose" value="whole">
-                <label for="roastedGooseBuyChoice1" class="whole"><b>一隻 $1500</b></label>
+                <input id="barbecuePorkBuyChoice1" type="radio" name="barbecuePork" value="one">
+                <label for="barbecuePorkBuyChoice1" class="one"><b>一份 $200</b></label>
             
-                <input id="roastedGooseBuyChoice2" type="radio" name="roastedGoose" value="half">
-                <label for="roastedGooseBuyChoice2" class="half"><b>半隻 $800</b></label>
+                <input id="barbecuePorkBuyChoice2" type="radio" name="barbecuePork" value="two">
+                <label for="barbecuePorkBuyChoice2" class="two"><b>兩份 $400</b></label>
             
             </form>
             <div class="otherBuy">
-                <label for="password" class="password"><b>其他數量</b></label>
-                <input class="bgc" type="other" placeholder="Ex:2" id="password">
+                <label for="otherQuantity" class="password"><b>其他數量</b></label>
+                <input class="bgc" type="other" placeholder="Ex:3" id="otherQuantity">
             </div>
         
             <a href="{{ url_for('default.cart') }}"><input type="submit" value="直接購買"></a>
@@ -132,30 +132,30 @@
     
     <script>
         function openRoastedGooseBuyForm() {
-            document.getElementById("MyRoastedGooseBuyOverlay").style.display = "block";
+            document.getElementById("MyBarbecueBuyOverlay").style.display = "block";
         }
     
         function closeRoastedGooseBuyForm() {
-            document.getElementById("MyRoastedGooseBuyOverlay").style.display = "none";
+            document.getElementById("MyBarbecueBuyOverlay").style.display = "none";
         }
     </script>
 
     <!-- AddCart -->
-    <div id="MyRoastedGooseAddCartOverlay" class="RoastedGooseAddCartOverlay">
+    <div id="MyBarbecuePorkAddCartOverlay" class="blackBgc">
         <div class="wrapAddCart">
             <span class="closebtnAddCart" onclick="closeRoastedGooseAddCartForm()" title="Close RoastedGooseAddCartOverlay"> &#215 </span>
             <h2>軟嫩蜜汁叉燒</h2>
             <form class="radio-formAddCart">
-                <input id="roastedGooseAddCartChoice2" type="radio" name="roastedGoose" value="whole">
-                <label for="roastedGooseAddCartChoice2" class="whole"><b>一隻 $1500</b></label>
+                <input id="barbecuePorkAddCartChoice1" type="radio" name="barbecuePork" value="one">
+                <label for="barbecuePorkAddCartChoice1" class="one"><b>一份 $200</b></label>
             
-                <input id="roastedGooseAddCartChoice2" type="radio" name="roastedGoose" value="half">
-                <label for="roastedGooseAddCartChoice2" class="half"><b>半隻 $800</b></label>
+                <input id="barbecuePorkAddCartChoice2" type="radio" name="barbecuePork" value="two">
+                <label for="barbecuePorkAddCartChoice2" class="two"><b>兩份 $400</b></label>
             
             </form>
             <div class="otherAddCart">
-                <label for="password" class="password"><b>其他數量</b></label>
-                <input class="bgc" type="other" placeholder="Ex:2" id="password">
+                <label for="otherQuantity" class="password"><b>其他數量</b></label>
+                <input class="bgc" type="other" placeholder="Ex:3" id="otherQuantity">
             </div>
         
             <input type="submit" value="加入購物車" onclick="openSuccessAndCloseAddCart()">
@@ -164,16 +164,16 @@
     
     <script>
         function openRoastedGooseAddCartForm() {
-            document.getElementById("MyRoastedGooseAddCartOverlay").style.display = "block";
+            document.getElementById("MyBarbecuePorkAddCartOverlay").style.display = "block";
         }
     
         function closeRoastedGooseAddCartForm() {
-            document.getElementById("MyRoastedGooseAddCartOverlay").style.display = "none";
+            document.getElementById("MyBarbecuePorkAddCartOverlay").style.display = "none";
         }
         // 打開 "SignUp" 的 Overlay 並關閉 "Login" 的 Overlay
         function openSuccessAndCloseAddCart() {
         document.getElementById('MySuccessRoastedGooseAddCartOverlay').style.display = 'block';
-        document.getElementById('MyRoastedGooseAddCartOverlay').style.display = 'none';
+        document.getElementById('MyBarbecuePorkAddCartOverlay').style.display = 'none';
     }
     </script>
 
@@ -681,7 +681,7 @@ input::placeholder {
     background: #EB6D20;
 }
 
-.RoastedGooseBuyOverlay {
+.blackBgc {
     height: 100%;
     width: 100%;
     display: none;
@@ -722,7 +722,7 @@ input::placeholder {
     margin-bottom: 0.75vh;
 }
 
-#roastedGooseBuyChoice1, #roastedGooseBuyChoice2 {
+#barbecuePorkBuyChoice1, #barbecuePorkBuyChoice2 {
     width: 8%;
 }
 
@@ -890,7 +890,7 @@ input::placeholder {
     margin-bottom: 0.75vh;
 }
 
-#roastedGooseAddCartChoice2, #roastedGooseAddCartChoice2 {
+#barbecuePorkAddCartChoice1, #barbecuePorkAddCartChoice2 {
     width: 8%;
 }
 
@@ -978,7 +978,7 @@ input::placeholder {
 }
 
 .RoastedGooseBackGround .left .roasted-goose {
-    background: url('/static/images/2023ChampionRoastedGoose.jpg') no-repeat;
+    background: url('/static/images/BarbecuePork.jpg') no-repeat;
     background-size: 100% auto;
     height: 80vh;
     width: 50vw;

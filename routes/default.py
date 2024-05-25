@@ -34,9 +34,9 @@ def goostFeet():
 def foieGras():
     return render_template("FoieGrasPage.html")
 
-@default.route("/goose-gzzards", methods=["GET"])
-def GooseGzzards():
-    return render_template("GooseGzzardsPage.html")
+@default.route("/goose-gizzards", methods=["GET"])
+def GooseGizzards():
+    return render_template("GooseGizzardsPage.html")
 
 @default.route("/cart", methods=["GET"])
 def cart():
