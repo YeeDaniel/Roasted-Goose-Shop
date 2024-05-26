@@ -1,5 +1,5 @@
 from flask import Flask
-from routes import default, user, google
+from routes import default, user
 from config import Config
 from database import db
 
@@ -18,7 +18,6 @@ def add_security_headers(response):
 
 app.register_blueprint(default)
 app.register_blueprint(user, url_prefix="/user")
-app.register_blueprint(google, url_prefix="/google")
 
 if __name__ == "__main__":
     app.run(debug=True, port=6018, use_reloader=True)
