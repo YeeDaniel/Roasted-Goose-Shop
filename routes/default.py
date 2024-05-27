@@ -41,3 +41,11 @@ def GooseGizzards():
 @default.route("/cart", methods=["GET"])
 def cart():
     return render_template("CartPage.html")
+
+@default.route("/login", methods=["GET"])
+def login():
+    return render_template("LoginPage.html")
+
+@default.route("/SignUp", methods=["GET"])
+def signUp():
+    return render_template("SignUpPage.html")

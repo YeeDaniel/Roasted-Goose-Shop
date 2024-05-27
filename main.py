@@ -19,5 +19,6 @@ def add_security_headers(response):
 app.register_blueprint(default)
 app.register_blueprint(user, url_prefix="/user")
 
+
 if __name__ == "__main__":
     app.run(debug=True, port=6018, use_reloader=True)

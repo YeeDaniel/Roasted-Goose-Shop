@@ -1,5 +1,4 @@
 from database import db
-from sqlalchemy.orm import relationship
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)

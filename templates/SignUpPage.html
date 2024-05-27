@@ -6,36 +6,64 @@
     <title>SignUpPage</title>
 </head>
 <body>
-
-<div id="mySignUpOverlay" class="SignUpOverlay">
-    <div class="wrapSignUp">
-        <span class="closebtnSignUp" onclick="closeSignUpForm()" title="Close SignUpOverlay"> &#215 </span>
-        <h2>註冊</h2>
-        <form>
-            <label for="username" class="username"><b>使用者名稱</b></label>
-            <input id="username" type="text" placeholder="使用者名稱" required>
-            <label for="email" class="Email"><b>Email</b></label>
-            <input id="email" type="email" placeholder="Email" required>
-            <label for="password" class="password"><b>密碼</b></label>
-            <input id="password" type="password" placeholder="密碼" required>
-            <input type="submit" value="點我註冊">
-        </form>
+<div class="background">
+    <div id="mySignUpOverlay" class="SignUpOverlay">
+        <div class="wrapSignUp">
+            <a href="{{url_for('default.index')}}"><span class="closebtnSignUp" title="Close SignUpOverlay"> &#215 </span></a>
+            <h2>註冊</h2>
+            <form>
+                <label for="username" class="username"><b>使用者名稱</b></label>
+                <input class="bgc" id="username" type="text" placeholder="使用者名稱" name="username" required>
+                <label for="email" class="Email"><b>Email</b></label>
+                <input class="bgc" id="email" type="email" placeholder="Email" name="email" required>
+                <label for="password" class="password"><b>密碼</b></label>
+                <input class="bgc" id="password" type="password" placeholder="密碼" name="password" required>
+                <button type="submit">點我註冊</button>
+            </form>
+        </div>
     </div>
 </div>
-<button class="openbtnSignUp" onclick="openSignUpForm()">註冊</button>
 <script>
-    function openSignUpForm() {
-        document.getElementById("mySignUpOverlay").style.display = "block";
-    }
-
-    function closeSignUpForm() {
-        document.getElementById("mySignUpOverlay").style.display = "none";
-    }
+    document.querySelector("form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        fetch('{{ url_for("user.register") }}', {
+            method: "POST",
+            body: new FormData(this),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.error) {
+                alert(data.error);
+            } else if (data.success) {
+                window.location.href = '{{url_for("default.login")}}';
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
 </script>
 </body>
 </html>
 
 <style>
+.bgc {
+    background-color: #808080;
+    opacity: 0.5;  /* 根據你的需求調整 */
+}
+
+input::placeholder {
+    color: #000000;  /* 根據你的需求調整 */
+}
+
+/* background */
+.background {
+    background-color: rgba(250, 240, 216, 0.5);
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
 
 /* SignUp */
 .wrapSignUp {
@@ -57,7 +85,7 @@
     margin-top: 50px;
 }
 
-.wrapSignUp input {
+.wrapSignUp input, button {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
@@ -76,17 +104,19 @@
     text-align: center;
 }
 
-.wrapSignUp input[type="submit"] {
-    font-size: 16px;
-    margin-top: 30px;
+.wrapSignUp button[type="submit"] {
+    display: inline-block;
+    padding: 10px 20px;
     color: #fff;
-    font-weight: bold;
-    background: #846E82;
-    border: 1px solid #fff;
+    background-color: #846E82;
+    border: none;
+    text-decoration: none;
+    text-align: center;
     cursor: pointer;
+    font-weight: bold;
 }
 
-.wrapSignUp input[type="submit"]:hover {
+.wrapSignUp button[type="submit"]:hover {
     background: #EB6D20;
     color: #fff;
 }
@@ -107,7 +137,6 @@
 .SignUpOverlay {
     height: 100%;
     width: 100%;
-    display: none;
     position: fixed;
     z-index: 1;
     top: 0;

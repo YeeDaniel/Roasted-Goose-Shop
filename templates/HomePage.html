@@ -13,19 +13,33 @@
         </div>
         <div class="menu">
             <!-- 你的菜單、關於我們、港式燒鵝、蜜汁叉燒、香濃滷水、聯絡我們、購物車的連結放在這裡 -->
+            {% if logged_in %}
             <a href="{{ url_for('default.menu') }}">菜單</a>
             <a href="{{ url_for('default.about') }}">關於我們</a>
             <a href="{{ url_for('default.roastedGoose') }}">港式燒鵝</a>
             <a href="{{ url_for('default.barbecuePork') }}">蜜汁叉燒</a>
+            {% else %}
+            <a href="{{ url_for('default.menu') }}" class="requires-login">菜單</a>
+            <a href="{{ url_for('default.about') }}" class="requires-login">關於我們</a>
+            <a href="{{ url_for('default.roastedGoose') }}" class="requires-login">港式燒鵝</a>
+            <a href="{{ url_for('default.barbecuePork') }}" class="requires-login">蜜汁叉燒</a>
+            {% endif %}
             <div class="dropdown">
                 <button class="dropbtn">香濃滷水
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
+                    {% if logged_in %}
                     <a href="{{ url_for('default.gooseWing') }}">鵝翅</a>
                     <a href="{{ url_for('default.goostFeet') }}">鵝腳</a>
                     <a href="{{ url_for('default.foieGras') }}">鵝肝</a>
                     <a href="{{ url_for('default.GooseGizzards') }}">鵝胗</a>
+                    {% else %}
+                    <a href="{{ url_for('default.gooseWing') }}" class="requires-login">鵝翅</a>
+                    <a href="{{ url_for('default.goostFeet') }}" class="requires-login">鵝腳</a>
+                    <a href="{{ url_for('default.foieGras') }}" class="requires-login">鵝肝</a>
+                    <a href="{{ url_for('default.GooseGizzards') }}" class="requires-login">鵝胗</a>
+                    {% endif %}
                 </div>
             </div>
             <div class="dropdown">
@@ -33,75 +47,81 @@
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
+                    {% if logged_in %}
                     <a href="https://line.me/ti/p/CxP7SyImh7">老闆的Line</a>
                     <a href="https://lin.ee/ByDc8Vl">鵝邸家Line官方帳號</a>
                     <a href="https://www.facebook.com/goosehometa?notif_id=1707036023329618&notif_t=profile_plus_admin_invite&ref=notif&locale=zh_TW">FB粉絲專頁</a>
+                    {% else %}
+                    <a href="https://line.me/ti/p/CxP7SyImh7" class="requires-login">老闆的Line</a>
+                    <a href="https://lin.ee/ByDc8Vl" class="requires-login">鵝邸家Line官方帳號</a>
+                    <a href="https://www.facebook.com/goosehometa?notif_id=1707036023329618&notif_t=profile_plus_admin_invite&ref=notif&locale=zh_TW" class="requires-login">FB粉絲專頁</a>
+                    {% endif %}
                 </div>
             </div>
-
+            {% if logged_in %}
             <a href="{{ url_for('default.cart') }}" class="cart-link"><img src="/static/images/CartLogo.png" class="cartLogo">購物車</a>
+            {% else %}
+            <a href="{{ url_for('default.cart') }}" class="cart-link requires-login"><img src="/static/images/CartLogo.png" class="cartLogo">購物車</a>
+            {% endif %}
 
             <div class="login-button">
-                <button class="openbtn" onclick="openLoginForm()"><span><b>點我登入</b></span></button>
+                {% if logged_in %}
+                <a href="{{ url_for('default.login') }}" class="click-link">點我登出</a>
+                {% else %}
+                <a href="{{ url_for('default.login') }}" class="click-link">點我登入</a>
+                {% endif %}
             </div>
-
-            <!-- login overlay -->
-            <div id="myLoginOverlay" class="loginOverlay">
-                <div class="wrapLogin">
-                    <span class="closebtnLogin" onclick="closeLoginForm()" title="Close loginOverlay"> &#215 </span>
-                    <h2>登入</h2>
-                    <form>
-                        <label for="email" class="Email"><b>Email</b></label>
-                        <input class="bgc" id="email" type="email" placeholder="Email"  required>
-                        <label for="password" class="password"><b>密碼</b></label>
-                        <input class="bgc" id="password" type="password" placeholder="密碼" id="password" required>
-                        <input type="submit" value="點我登入">
-                        <p>還沒有帳戶?    <span onclick="openSignUpAndCloseLogin()">點我註冊！</span></p>
-                    </form>
-                </div>
-            </div>
-            
-            <script>
-                function openLoginForm() {
-                    document.getElementById("myLoginOverlay").style.display = "block";
-                }
-            
-                function closeLoginForm() {
-                    document.getElementById("myLoginOverlay").style.display = "none";
-                }
-                // 打開 "SignUp" 的 Overlay 並關閉 "Login" 的 Overlay
-                function openSignUpAndCloseLogin() {
-                document.getElementById('mySignUpOverlay').style.display = 'block';
-                document.getElementById('myLoginOverlay').style.display = 'none';
-            }
-            </script>
-            
-            <!-- Login to SignUp -->
-            <div id="mySignUpOverlay" class="SignUpOverlay">
-                <div class="wrapLogin">
-                    <span class="closebtnLogin" onclick="closeSignUpForm()" title="Close SignUpOverlay"> &#215 </span>
-                    <h2>註冊</h2>
-                    <form>
-                        <label for="username" class="username"><b>使用者名稱</b></label>
-                        <input class="bgc" id="username" type="text" placeholder="使用者名稱" required>
-                        <label for="email" class="Email"><b>Email</b></label>
-                        <input class="bgc" id="email" type="email" placeholder="Email" required>
-                        <label for="password" class="password"><b>密碼</b></label>
-                        <input class="bgc" id="password" type="password" placeholder="密碼" required>
-                        <input type="submit" value="點我註冊">
-                    </form>
-                </div>
-            </div>
-            <script>
-                function closeSignUpForm() {
-                    document.getElementById("mySignUpOverlay").style.display = "none";
-                }
-            </script>
         </div>
     </div><!-- end navbar-->
 
-    <div class="HomePageBackGroundImg">
-    </div> 
+    <div class="HomePageBackGroundImg"></div>
+    <script>
+        // 獲取點擊的連結元素
+        const links = document.querySelectorAll(".navbar a:not(.click-link)");
+        const dropdownLinks = document.querySelectorAll(".dropdown-content a");
+        
+
+        // 添加點擊事件監聽器
+        links.forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                if (!userLoggedIn) {
+                    openLoginForm();
+                } else {
+                    window.location.href = this.href;
+                }
+            });
+        });
+
+        dropdownLinks.forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                if (!userLoggedIn) {
+                    openLoginForm();
+                } else {
+                    window.location.href = this.href;
+                }
+            });
+        });
+
+        function openLogin() {
+            document.getElementById("Login").style.display = "block";
+        }
+    
+        function closeLogin() {
+            document.getElementById("Login").style.display = "none";
+        }
+
+        window.onload = function() {
+        var elements = document.getElementsByClassName('requires-login');
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].addEventListener('click', function(e) {
+                e.preventDefault();
+                openLogin();
+            });
+        }
+    }
+    </script> 
 </body>
 </html>
 
@@ -256,7 +276,7 @@ body {
     transform: scale(0.8);
 }
 
-.login-button button {
+.login-button a {
     background-color: #EB6D20;  /* 設定背景色為橘色 */
     border-radius: 40px;  /* 設定邊框半徑為50px，創建長橢圓形效果 */
     box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.5);
@@ -264,16 +284,13 @@ body {
     padding: 10px 20px;  /* 設定內邊距，使按鈕變大 */
     text-decoration: none;  /* 移除文字裝飾 */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* 設定文字陰影 */
-} 
-
-.login-button button:hover {
-    background-color: #846E82;
-    color: #fff;
-}
-
-.login-button button span {
     font-weight: bold;
     font-size: 1em;
+} 
+
+.login-button a:hover {
+    background-color: #846E82;
+    color: #fff;
 }
 /* end navbar */
 
@@ -523,5 +540,63 @@ body {
     opacity: 0.8;
     object-fit: cover;
     margin: 0;
+}
+.wrapSuccess {
+    width: 20%;  
+    height: 20%;  
+    position: absolute;  /* 修改的行 */
+    top: 30%;  /* 修改的行 */
+    left: 50%;  /* 修改的行 */
+    transform: translate(-50%, -50%);  /* 修改的行 */
+    min-width: 350px;
+    margin: auto;
+    
+    background: #E0D6C3;
+    margin-top: 100px;
+    border-radius: 20px;
+}
+
+.wrapSuccess h2 {
+    margin-top: 8vh;
+    padding: 0;
+    font-size: 2em;
+    text-align: center;
+}
+
+.openbtnSuccess {
+    background: #f1f1f1;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    float: right;
+}
+
+.openbtnSuccess:hover {
+    background: #EB6D20;
+}
+
+.SuccessRoastedGooseAddCartOverlay {
+    height: 100%;
+    width: 100%;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.closebtnSuccess {
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    font-size: 48px;
+    cursor: pointer;
+    color: gray;
+}
+
+.closebtnSuccess:hover {
+    color: #EB6D20;
 }
 </style>
