@@ -12,17 +12,16 @@
             <a href="{{ url_for('default.index') }}"><span class="stroked-text">鵝邸家燒鵝專賣</span></a>
         </div>
         <div class="menu">
-            <!-- 你的菜單、關於我們、港式燒鵝、蜜汁叉燒、香濃滷水、聯絡我們、購物車的連結放在這裡 -->
             {% if logged_in %}
             <a href="{{ url_for('default.menu') }}">菜單</a>
             <a href="{{ url_for('default.about') }}">關於我們</a>
             <a href="{{ url_for('default.roastedGoose') }}">港式燒鵝</a>
             <a href="{{ url_for('default.barbecuePork') }}">蜜汁叉燒</a>
             {% else %}
-            <a href="{{ url_for('default.menu') }}" class="requires-login">菜單</a>
-            <a href="{{ url_for('default.about') }}" class="requires-login">關於我們</a>
-            <a href="{{ url_for('default.roastedGoose') }}" class="requires-login">港式燒鵝</a>
-            <a href="{{ url_for('default.barbecuePork') }}" class="requires-login">蜜汁叉燒</a>
+            <a href="#" class="requires-login" data-url="{{ url_for('default.menu') }}">菜單</a>
+            <a href="#" class="requires-login" data-url="{{ url_for('default.about') }}">關於我們</a>
+            <a href="#" class="requires-login" data-url="{{ url_for('default.roastedGoose') }}">港式燒鵝</a>
+            <a href="#" class="requires-login" data-url="{{ url_for('default.barbecuePork') }}">蜜汁叉燒</a>
             {% endif %}
             <div class="dropdown">
                 <button class="dropbtn">香濃滷水
@@ -35,10 +34,10 @@
                     <a href="{{ url_for('default.foieGras') }}">鵝肝</a>
                     <a href="{{ url_for('default.GooseGizzards') }}">鵝胗</a>
                     {% else %}
-                    <a href="{{ url_for('default.gooseWing') }}" class="requires-login">鵝翅</a>
-                    <a href="{{ url_for('default.goostFeet') }}" class="requires-login">鵝腳</a>
-                    <a href="{{ url_for('default.foieGras') }}" class="requires-login">鵝肝</a>
-                    <a href="{{ url_for('default.GooseGizzards') }}" class="requires-login">鵝胗</a>
+                    <a href="#" class="requires-login" data-url="{{ url_for('default.gooseWing') }}">鵝翅</a>
+                    <a href="#" class="requires-login" data-url="{{ url_for('default.goostFeet') }}">鵝腳</a>
+                    <a href="#" class="requires-login" data-url="{{ url_for('default.foieGras') }}">鵝肝</a>
+                    <a href="#" class="requires-login" data-url="{{ url_for('default.GooseGizzards') }}">鵝胗</a>
                     {% endif %}
                 </div>
             </div>
@@ -52,75 +51,55 @@
                     <a href="https://lin.ee/ByDc8Vl">鵝邸家Line官方帳號</a>
                     <a href="https://www.facebook.com/goosehometa?notif_id=1707036023329618&notif_t=profile_plus_admin_invite&ref=notif&locale=zh_TW">FB粉絲專頁</a>
                     {% else %}
-                    <a href="https://line.me/ti/p/CxP7SyImh7" class="requires-login">老闆的Line</a>
-                    <a href="https://lin.ee/ByDc8Vl" class="requires-login">鵝邸家Line官方帳號</a>
-                    <a href="https://www.facebook.com/goosehometa?notif_id=1707036023329618&notif_t=profile_plus_admin_invite&ref=notif&locale=zh_TW" class="requires-login">FB粉絲專頁</a>
+                    <a href="#" class="requires-login" data-url="https://line.me/ti/p/CxP7SyImh7">老闆的Line</a>
+                    <a href="#" class="requires-login" data-url="https://lin.ee/ByDc8Vl">鵝邸家Line官方帳號</a>
+                    <a href="#" class="requires-login" data-url="https://www.facebook.com/goosehometa?notif_id=1707036023329618&notif_t=profile_plus_admin_invite&ref=notif&locale=zh_TW">FB粉絲專頁</a>
                     {% endif %}
                 </div>
             </div>
             {% if logged_in %}
             <a href="{{ url_for('default.cart') }}" class="cart-link"><img src="/static/images/CartLogo.png" class="cartLogo">購物車</a>
             {% else %}
-            <a href="{{ url_for('default.cart') }}" class="cart-link requires-login"><img src="/static/images/CartLogo.png" class="cartLogo">購物車</a>
+            <a href="#" class="cart-link requires-login" data-url="{{ url_for('default.cart') }}"><img src="/static/images/CartLogo.png" class="cartLogo">購物車</a>
             {% endif %}
 
             <div class="login-button">
                 {% if logged_in %}
-                <a href="{{ url_for('default.login') }}" class="click-link">點我登出</a>
+                <a href="{{ url_for('user.logout') }}" class="click-link">點我登出</a>
                 {% else %}
                 <a href="{{ url_for('default.login') }}" class="click-link">點我登入</a>
                 {% endif %}
             </div>
         </div>
     </div><!-- end navbar-->
-
+    
     <div class="HomePageBackGroundImg"></div>
+    <div id="Login" class="loginOverlay">
+        <div class="wrapLogin">
+            <span class="closebtnLogin" onclick="closeLogin()">&times;</span>
+            <h2>請先登入</h2>
+        </div>
+    </div>
     <script>
-        // 獲取點擊的連結元素
-        const links = document.querySelectorAll(".navbar a:not(.click-link)");
-        const dropdownLinks = document.querySelectorAll(".dropdown-content a");
-        
-
-        // 添加點擊事件監聽器
-        links.forEach(link => {
-            link.addEventListener("click", function(e) {
-                e.preventDefault();
-                if (!userLoggedIn) {
-                    openLoginForm();
-                } else {
-                    window.location.href = this.href;
-                }
-            });
-        });
-
-        dropdownLinks.forEach(link => {
-            link.addEventListener("click", function(e) {
-                e.preventDefault();
-                if (!userLoggedIn) {
-                    openLoginForm();
-                } else {
-                    window.location.href = this.href;
-                }
-            });
-        });
+        const userLoggedIn = "{{ 'true' if logged_in else 'false' }}" === "true";
 
         function openLogin() {
             document.getElementById("Login").style.display = "block";
         }
-    
+
         function closeLogin() {
             document.getElementById("Login").style.display = "none";
         }
 
         window.onload = function() {
-        var elements = document.getElementsByClassName('requires-login');
-        for (var i = 0; i < elements.length; i++) {
-            elements[i].addEventListener('click', function(e) {
-                e.preventDefault();
-                openLogin();
-            });
+            var elements = document.getElementsByClassName('requires-login');
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openLogin();
+                });
+            }
         }
-    }
     </script> 
 </body>
 </html>
@@ -296,10 +275,10 @@ body {
 
 /* login */
 .wrapLogin {
-    width: 50%;  /* 修改的行 */
-    height: 50%;  /* 修改的行 */
+    width: 20%;  /* 修改的行 */
+    height: 5%;  /* 修改的行 */
     position: absolute;  /* 修改的行 */
-    top: 40%;  /* 修改的行 */
+    top: 30%;  /* 修改的行 */
     left: 50%;  /* 修改的行 */
     transform: translate(-50%, -50%);  /* 修改的行 */
     min-width: 350px;
@@ -310,76 +289,16 @@ body {
     border-radius: 20px;
 }
 
-.wrapLogin form {
-    margin-top: 50px;
-}
-
-.wrapLogin input {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    border: none;
-    outline: none;
-    border: 1px solid gray;
-    font-style: 15px;
-    border-radius: 5px;
-}
-
 .bgc {
     background-color: #808080;
     opacity: 0.5;  /* 根據你的需求調整 */
 }
 
-.wrapLogin input::placeholder {
-    color: #000000;  /* 根據你的需求調整 */
-}
-
-
-.wrapLogin h2 {
+.wrapLogin h2, span {
     margin: 0;
     padding: 0;
     font-size: 2em;
     text-align: center;
-}
-
-.wrapLogin input[type="submit"] {
-    font-size: 16px;
-    margin-top: 30px;
-    color: #fff;
-    font-weight: bold;
-    background: #846E82;
-    border: 1px solid #fff;
-    cursor: pointer;
-}
-
-.wrapLogin input[type="submit"]:hover {
-    background: #EB6D20;
-    color: #fff;
-}
-
-.wrapLogin input[type="clickMeRegister"] {
-    font-size: 16px;
-    margin-top: 30px;
-    color: #fff;
-    font-weight: bold;
-    background: #000;
-    cursor: pointer;
-    text-align: center;
-}
-
-.wrapLogin p {
-    font-size: 1em;
-    color: #000;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 5vh;
-}
-
-.wrapLogin p span {
-    color: #EB6D20;
-    cursor: pointer;
-
 }
 
 .openbtnLogin {
@@ -419,8 +338,8 @@ body {
 
 .closebtnLogin {
     position: absolute;
-    top: 20px;
-    right: 45px;
+    top: 5px;
+    right: 20px;
     font-size: 60px;
     cursor: pointer;
     color: #fff;

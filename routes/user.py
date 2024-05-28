@@ -20,7 +20,6 @@ def register():
     if result == "username_exists":
         return jsonify({'error': '此名稱已被使用'}), 400
 
-    # Assuming UserService.register returns None or some value for a successful registration
     if result:
         return jsonify({'success': '註冊成功'}), 200
     else:
@@ -40,7 +39,6 @@ def login():
         return jsonify({'success': '登入成功'}), 200
     else:
         return jsonify({'error': '登入失敗'}), 400
-
 
 @user.route("/logout")
 def logout():

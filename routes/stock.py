@@ -1,25 +1,49 @@
-from flask import request, Blueprint
+from flask import request, Blueprint, jsonify
 from services import StockService
 
 stock = Blueprint('stock', __name__)
 
-# GET 方法來獲取所有庫存
-@stock.route('/stocks', methods=['GET'])
+@stock.route('/create', methods=['POST'])
+def create_stock():
+    data = request.get_json()
+    quantity = data.get('quantity')
+    if quantity is None:
+        return jsonify({"error": "Quantity is required"}), 400
+    stock, message = StockService.create_stock(quantity)
+    if stock:
+        return jsonify({"message": message, "stock": {"id": stock.id, "quantity": stock.quantity}}), 201
+    else:
+        return jsonify({"error": message}), 400
+    
+@stock.route('/update/<int:stock_id>', methods=['PUT'])
+def update_stock(stock_id):
+    data = request.get_json()
+    quantity = data.get('quantity')
+    if quantity is None:
+        return jsonify({"error": "Quantity is required"}), 400
+    stock, message = StockService.update_stock(stock_id, quantity)
+    if stock:
+        return jsonify({"message": message, "stock": {"id": stock.id, "quantity": stock.quantity}}), 200
+    else:
+        return jsonify({"error": message}), 404
+    
+@stock.route('/delete/<int:stock_id>', methods=['DELETE'])
+def delete_stock(stock_id):
+    success, message = StockService.delete_stock(stock_id)
+    if success:
+        return jsonify({"message": message}), 200
+    else:
+        return jsonify({"error": message}), 404
+
+@stock.route('/details/<int:stock_id>', methods=['GET'])
+def get_stock_details(stock_id):
+    stock, message = StockService.get_stock(stock_id)
+    if stock:
+        return jsonify({"stock": {"id": stock.id, "quantity": stock.quantity}, "message": message}), 200
+    else:
+        return jsonify({"error": message}), 404
+
+@stock.route('/all', methods=['GET'])
 def get_all_stocks():
-    stocks = StockService.get_all_stocks()
-    # 你需要將庫存列表轉換為適合回應的格式，例如 JSON
-    return {"stocks": [stock.to_dict() for stock in stocks]}
-
-# GET 方法來獲取特定庫存
-@stock.route('/stocks/<int:product_id>', methods=['GET'])
-def get_stock(product_id):
-    stock = StockService.get_stock_by_product_id(product_id)
-    # 你需要將庫存資訊轉換為適合回應的格式，例如 JSON
-    return stock.to_dict() if stock else {"error": "Stock not found"}
-
-# PUT 方法來更新庫存
-@stock.route('/stocks/<int:product_id>', methods=['PUT'])
-def update_stock(product_id):
-    quantity = request.json.get('quantity')
-    StockService.update_stock(product_id, -quantity)
-    return {"message": "Stock updated successfully"}
+    stocks, message = StockService.get_all_stocks()
+    return jsonify({"stocks": [{"id": stock.id, "quantity": stock.quantity} for stock in stocks], "message": message}), 200

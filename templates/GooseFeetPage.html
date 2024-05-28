@@ -42,61 +42,8 @@
             <a href="{{ url_for('default.cart') }}" class="cart-link"><img src="/static/images/CartLogo.png" class="cartLogo">購物車</a>
 
             <div class="login-button">
-                <button class="openbtn" onclick="openLoginForm()"><span><b>點我登入</b></span></button>
+                <a href="{{ url_for('user.logout') }}" class="click-link">點我登出</a>
             </div>
-
-            <!-- login overlay -->
-            <div id="myLoginOverlay" class="loginOverlay">
-                <div class="wrapLogin">
-                    <span class="closebtnLogin" onclick="closeLoginForm()" title="Close loginOverlay"> &#215 </span>
-                    <h2>登入</h2>
-                    <form>
-                        <label for="email" class="Email"><b>Email</b></label>
-                        <input class="bgc" id="email" type="email" placeholder="Email"  required>
-                        <label for="password" class="password"><b>密碼</b></label>
-                        <input class="bgc" id="password" type="password" placeholder="密碼" id="password" required>
-                        <input type="submit" value="點我登入">
-                        <p>還沒有帳戶?    <span onclick="openSignUpAndCloseLogin()">點我註冊！</span></p>
-                    </form>
-                </div>
-            </div>
-            
-            <script>
-                function openLoginForm() {
-                    document.getElementById("myLoginOverlay").style.display = "block";
-                }
-            
-                function closeLoginForm() {
-                    document.getElementById("myLoginOverlay").style.display = "none";
-                }
-                // 打開 "SignUp" 的 Overlay 並關閉 "Login" 的 Overlay
-                function openSignUpAndCloseLogin() {
-                document.getElementById('mySignUpOverlay').style.display = 'block';
-                document.getElementById('myLoginOverlay').style.display = 'none';
-            }
-            </script>
-            
-            <!-- Login to SignUp -->
-            <div id="mySignUpOverlay" class="SignUpOverlay">
-                <div class="wrapLogin">
-                    <span class="closebtnLogin" onclick="closeSignUpForm()" title="Close SignUpOverlay"> &#215 </span>
-                    <h2>註冊</h2>
-                    <form>
-                        <label for="username" class="username"><b>使用者名稱</b></label>
-                        <input class="bgc" id="username" type="text" placeholder="使用者名稱" required>
-                        <label for="email" class="Email"><b>Email</b></label>
-                        <input class="bgc" id="email" type="email" placeholder="Email" required>
-                        <label for="password" class="password"><b>密碼</b></label>
-                        <input class="bgc" id="password" type="password" placeholder="密碼" required>
-                        <input type="submit" value="點我註冊">
-                    </form>
-                </div>
-            </div>
-            <script>
-                function closeSignUpForm() {
-                    document.getElementById("mySignUpOverlay").style.display = "none";
-                }
-            </script>
         </div>
     </div>
     <!-- end navbar-->
@@ -106,6 +53,9 @@
         <div class="wrapBuy">
             <span class="closebtnBuy" onclick="closeRoastedGooseBuyForm()" title="Close RoastedGooseBuyOverlay"> &#215 </span>
             <h2>陳年香滷鵝腳</h2>
+            <div class="inventory-display">
+                <p>庫存量: <span id="inventoryCount">50</span></p>
+            </div>
             <form class="radio-formBuy">
                 <input id="gooseFeetBuyChoice1" type="radio" name="gooseFeet" value="one">
                 <label for="gooseFeetBuyChoice1" class="one"><b>一包 $100</b></label>
@@ -138,6 +88,9 @@
         <div class="wrapAddCart">
             <span class="closebtnAddCart" onclick="closeRoastedGooseAddCartForm()" title="Close RoastedGooseAddCartOverlay"> &#215 </span>
             <h2>陳年香滷鵝腳</h2>
+            <div class="inventory-display">
+                <p>庫存量: <span id="inventoryCount">50</span></p>
+            </div>
             <form class="radio-formAddCart">
                 <input id="gooseFeetAddCartChoice1" type="radio" name="gooseFeet" value="one">
                 <label for="gooseFeetAddCartChoice1" class="one"><b>一包 $100</b></label>
@@ -364,7 +317,7 @@ body {
     transform: scale(0.8);
 }
 
-.login-button button {
+.login-button a {
     background-color: #EB6D20;  /* 設定背景色為橘色 */
     border-radius: 40px;  /* 設定邊框半徑為50px，創建長橢圓形效果 */
     box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.5);
@@ -374,14 +327,9 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* 設定文字陰影 */
 } 
 
-.login-button button:hover {
+.login-button a:hover {
     background-color: #846E82;
     color: #fff;
-}
-
-.login-button button span {
-    font-weight: bold;
-    font-size: 1em;
 }
 /* end navbar */
 
@@ -570,7 +518,7 @@ input::placeholder {
 /* end login */
 .wrapBuy {
     width: 30%;  /* 修改的行 */
-    height: 40%;  /* 修改的行 */
+    height: auto;  /* 修改的行 */
     position: absolute;  /* 修改的行 */
     top: 40%;  /* 修改的行 */
     left: 50%;  /* 修改的行 */
@@ -687,8 +635,8 @@ input::placeholder {
 
 .closebtnBuy {
     position: absolute;
-    top: 20px;
-    right: 45px;
+    top: 0;
+    right: 20px;
     font-size: 60px;
     cursor: pointer;
     color: gray;
@@ -727,7 +675,7 @@ input::placeholder {
 /* AddCart */
 .wrapAddCart {
     width: 30%;  /* 修改的行 */
-    height: 40%;  /* 修改的行 */
+    height: auto;  /* 修改的行 */
     position: absolute;  /* 修改的行 */
     top: 40%;  /* 修改的行 */
     left: 50%;  /* 修改的行 */
@@ -818,6 +766,20 @@ input::placeholder {
 
 }
 
+.inventory-display {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.inventory-display p {
+    margin: 0;
+    padding: 10px;
+    background-color: #F0EAD6;
+    border-radius: 5px;
+}
+
 .openbtnAddCart {
     background: #f1f1f1;
     border: none;
@@ -844,8 +806,8 @@ input::placeholder {
 
 .closebtnAddCart {
     position: absolute;
-    top: 20px;
-    right: 45px;
+    top: 0;
+    right: 20px;
     font-size: 60px;
     cursor: pointer;
     color: gray;

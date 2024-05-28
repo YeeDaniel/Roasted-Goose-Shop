@@ -42,61 +42,8 @@
             <a href="{{ url_for('default.cart') }}" id="Cart-link" class="cart-link"><img src="/static/images/CartLogoOrange.png" class="cartLogo">購物車</a>
 
             <div class="login-button">
-                <button class="openbtn" onclick="openLoginForm()"><span><b>點我登入</b></span></button>
+                <a href="{{ url_for('user.logout') }}" class="click-link">點我登出</a>
             </div>
-
-            <!-- login overlay -->
-            <div id="myLoginOverlay" class="loginOverlay">
-                <div class="wrapLogin">
-                    <span class="closebtnLogin" onclick="closeLoginForm()" title="Close loginOverlay"> &#215 </span>
-                    <h2>登入</h2>
-                    <form>
-                        <label for="email" class="Email"><b>Email</b></label>
-                        <input class="bgc" id="email" type="email" placeholder="Email"  required>
-                        <label for="password" class="password"><b>密碼</b></label>
-                        <input class="bgc" id="password" type="password" placeholder="密碼" id="password" required>
-                        <input type="submit" value="點我登入">
-                        <p>還沒有帳戶?&emsp;&emsp;<span onclick="openSignUpAndCloseLogin()">點我註冊！</span></p>
-                    </form>
-                </div>
-            </div>
-            
-            <script>
-                function openLoginForm() {
-                    document.getElementById("myLoginOverlay").style.display = "block";
-                }
-            
-                function closeLoginForm() {
-                    document.getElementById("myLoginOverlay").style.display = "none";
-                }
-                // 打開 "SignUp" 的 Overlay 並關閉 "Login" 的 Overlay
-                function openSignUpAndCloseLogin() {
-                document.getElementById('mySignUpOverlay').style.display = 'block';
-                document.getElementById('myLoginOverlay').style.display = 'none';
-            }
-            </script>
-            
-            <!-- Login to SignUp -->
-            <div id="mySignUpOverlay" class="SignUpOverlay">
-                <div class="wrapLogin">
-                    <span class="closebtnLogin" onclick="closeSignUpForm()" title="Close SignUpOverlay"> &#215 </span>
-                    <h2>註冊</h2>
-                    <form>
-                        <label for="username" class="username"><b>使用者名稱</b></label>
-                        <input class="bgc" id="username" type="text" placeholder="使用者名稱" required>
-                        <label for="email" class="Email"><b>Email</b></label>
-                        <input class="bgc" id="email" type="email" placeholder="Email" required>
-                        <label for="password" class="password"><b>密碼</b></label>
-                        <input class="bgc" id="password" type="password" placeholder="密碼" required>
-                        <input type="submit" value="點我註冊">
-                    </form>
-                </div>
-            </div>
-            <script>
-                function closeSignUpForm() {
-                    document.getElementById("mySignUpOverlay").style.display = "none";
-                }
-            </script>
         </div>
     </div><!-- end navbar-->
     <div id="app">
@@ -108,8 +55,9 @@
                 <div class="amount"><b>總計</b></div>
                 <div class="operate"><b>操作</b></div>
             </div>
-
-                <div class="item_header item_body">
+            <div id="cartItems"></div>
+            
+                <!-- <div class="item_header item_body">
                     <div class="item_detail">
                         <img src="/static/images/2023ChampionRoastedGoose.jpg" alt="">
                         <div class="name"><b>金牌港式燒鵝</b></div>
@@ -125,47 +73,9 @@
                     <div class="operate">
                         <button><b>刪除</b></button>
                     </div>
-                </div>      
-
-            
-                <div class="item_header item_body">
-                    <div class="item_detail">
-                        <img src="/static/images/BarbecuePork.jpg" alt="">
-                        <div class="name"><b>軟嫩蜜汁叉燒</b></div>
-                    </div>
-        
-                    <div class="price"><span>$</span>200</div>
-                    <div class="count">
-                        <button>-</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div> 
-                    <div class="amount">200</div>
-                    <div class="operate">
-                        <button><b>刪除</b></button>
-                    </div>
-                </div>
-
-            
-                <div class="item_header item_body">
-                    <div class="item_detail">
-                        <img src="/static/images/GooseWing.jpg" alt="">
-                        <div class="name"><b>陳年香滷鵝翅</b></div>
-                    </div>
-        
-                    <div class="price"><span>$</span>110</div>
-                    <div class="count">
-                        <button>-</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div> 
-                    <div class="amount">110</div>
-                    <div class="operate">
-                        <button><b>刪除</b></button>
-                    </div>
-                </div>
+                </div>       -->
            
-            <div class="item_header item_body">
+            <div class="item_header item_body total">
                 <div class="item_detail">
                     <!-- <img src="GooseWing.jpg" alt=""> -->
                     <div class="name"><b>總共</b></div>
@@ -173,7 +83,7 @@
     
                 <div class="price"></div>
                 <div class="count"></div> 
-                <div class="amount">2790</div>
+                <div class="amount">0</div>
                 <div class="checkbtn">
                     <a href="{{ url_for('default.index') }}"><b>結帳</b></a>
                 </div>
@@ -182,53 +92,109 @@
     </div>
 </body>
 <script>
-   window.onload = function() {
-    var items = document.querySelectorAll('.item_body:not(:last-child)');
-    items.forEach(function(item) {
-        var minusBtn = item.querySelector('.count button:first-child');
-        var plusBtn = item.querySelector('.count button:last-child');
-        var deleteBtn = item.querySelector('.operate button');
-        var countEl = item.querySelector('.count span');
-        var priceEl = item.querySelector('.price');
-        var amountEl = item.querySelector('.amount');
-        var totalEl = document.querySelector('.item_body:last-child .amount');
-
-        minusBtn.addEventListener('click', function() {
-            var count = parseInt(countEl.textContent);
-            if (count > 1) {
-                count--;
-                countEl.textContent = count;
-                var price = parseInt(priceEl.textContent.replace('$', ''));
-                amountEl.textContent = price * count;
-                updateTotal();
-            }
-        });
-
-        plusBtn.addEventListener('click', function() {
-            var count = parseInt(countEl.textContent);
-            count++;
-            countEl.textContent = count;
-            var price = parseInt(priceEl.textContent.replace('$', ''));
-            amountEl.textContent = price * count;
-            updateTotal();
-        });
-
-        deleteBtn.addEventListener('click', function() {
-            item.remove();
-            updateTotal();
-        });
-
-        function updateTotal() {
-            var total = 0;
-            var amounts = document.querySelectorAll('.item_body:not(:last-child) .amount');
-            amounts.forEach(function(amount) {
-                total += parseInt(amount.textContent);
-            });
-            totalEl.textContent = total;
-        }
-    });
+    window.onload = function() {
+    const cartContainer = document.getElementById('cartItems');
+    const productDetails = JSON.parse(localStorage.getItem('productDetails'));
+    
+    if (productDetails) {
+        const itemElement = `
+            <div class="item_header item_body">
+                <div class="item_detail">
+                    <img src=${productDetails.image} alt="">
+                    <div class="name"><b>${productDetails.name}</b></div>
+                </div>
+        
+                <div class="price"><span>$</span>${productDetails.price}</div>
+                <div class="count">
+                    <button class="decrease">-</button>
+                    <span class="quantity">${productDetails.quantity}</span>
+                    <button class="increase">+</button>
+                </div> 
+                <div class="amount">${productDetails.total}</div>
+                <div class="operate">
+                    <button class="delete"><b>刪除</b></button>
+                </div>
+            </div>
+        `;
+        cartContainer.innerHTML = itemElement;
+        addEventListeners();
+    }
+    updateTotalPrice();
 };
-</script>
+
+function addEventListeners() {
+    const decreaseButtons = document.querySelectorAll('.decrease');
+    const increaseButtons = document.querySelectorAll('.increase');
+    const deleteButtons = document.querySelectorAll('.delete');
+
+    decreaseButtons.forEach(button => {
+        button.addEventListener('click', decreaseQuantity);
+    });
+
+    increaseButtons.forEach(button => {
+        button.addEventListener('click', increaseQuantity);
+    });
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', deleteItem);
+    });
+}
+
+function decreaseQuantity(event) {
+    const item = event.target.parentElement.parentElement;
+    const quantityElement = item.querySelector('.quantity');
+    let quantity = parseInt(quantityElement.textContent);
+    if (quantity > 1) {
+        quantity--;
+        quantityElement.textContent = quantity;
+        updateTotal(item);
+        updateProductDetails(item, quantity); // 更新商品詳細資訊
+    }
+}
+
+function increaseQuantity(event) {
+    const item = event.target.parentElement.parentElement;
+    const quantityElement = item.querySelector('.quantity');
+    let quantity = parseInt(quantityElement.textContent);
+    quantity++;
+    quantityElement.textContent = quantity;
+    updateTotal(item);
+    updateProductDetails(item, quantity); // 更新商品詳細資訊
+}
+
+function deleteItem(event) {
+    const item = event.target.closest('.item_body');
+    item.remove();
+    updateTotalPrice();
+    localStorage.removeItem('productDetails'); // 刪除商品詳細資訊
+}
+
+function updateProductDetails(item, quantity) {
+    const productDetails = JSON.parse(localStorage.getItem('productDetails'));
+    productDetails.quantity = quantity;
+    productDetails.total = quantity * productDetails.price;
+    localStorage.setItem('productDetails', JSON.stringify(productDetails)); // 儲存商品詳細資訊
+}
+
+function updateTotal(item) {
+    const quantity = parseInt(item.querySelector('.quantity').textContent);
+    const price = parseFloat(item.querySelector('.price').textContent.slice(1));
+    const total = quantity * price;
+    item.querySelector('.amount').textContent = total;
+    updateTotalPrice();
+}
+
+function updateTotalPrice() {
+    const items = document.querySelectorAll('.item_body:not(.total)');
+    let totalPrice = 0;
+    items.forEach(item => {
+        const total = parseFloat(item.querySelector('.amount').textContent);
+        totalPrice += total;
+    });
+    const totalElement = document.querySelector('.total .amount');
+    totalElement.textContent = totalPrice;
+}
+    </script>
 </html>
 
 <style>
@@ -381,7 +347,7 @@ body {
     transform: scale(0.8);
 }
 
-.login-button button {
+.login-button a {
     background-color: #EB6D20;  /* 設定背景色為橘色 */
     border-radius: 40px;  /* 設定邊框半徑為50px，創建長橢圓形效果 */
     box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.5);
@@ -391,14 +357,9 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* 設定文字陰影 */
 } 
 
-.login-button button:hover {
+.login-button a:hover {
     background-color: #846E82;
     color: #fff;
-}
-
-.login-button button span {
-    font-weight: bold;
-    font-size: 1em;
 }
 /* end navbar */
 
