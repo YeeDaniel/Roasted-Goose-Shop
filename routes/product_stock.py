@@ -47,8 +47,10 @@ def stock_details(product_id):
 #get quantity
 @product_stock.route('/quantity/<int:product_id>/<int:stock_id>', methods=['GET'])
 def get_quantity(product_id, stock_id):
+    print('product_id', product_id)
+    print('stock_id', stock_id)
     result = ProductStockService.get_quantity(product_id, stock_id)
-    if result:
+    if result is not None:
         return jsonify({'quantity': result}), 200
     else:
         return jsonify({'error': 'Product stock not found'}), 404

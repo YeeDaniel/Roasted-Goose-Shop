@@ -34,6 +34,7 @@
             if (data.error) {
                 alert(data.error);
             } else if (data.success) {
+                localStorage.setItem('userId', data.id);
                 window.location.href = '{{url_for("default.index")}}';
             }
         })

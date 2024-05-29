@@ -85,7 +85,7 @@
                 <div class="count"></div> 
                 <div class="amount">0</div>
                 <div class="checkbtn">
-                    <a href="{{ url_for('default.index') }}"><b>結帳</b></a>
+                    <button onclick="handleCheckout()"><b>結帳</b></button>
                 </div>
             </div>
         </div>
@@ -94,31 +94,35 @@
 <script>
     window.onload = function() {
     const cartContainer = document.getElementById('cartItems');
-    const productDetails = JSON.parse(localStorage.getItem('productDetails'));
-    
-    if (productDetails) {
-        const itemElement = `
-            <div class="item_header item_body">
-                <div class="item_detail">
-                    <img src=${productDetails.image} alt="">
-                    <div class="name"><b>${productDetails.name}</b></div>
+    const originalProductDetailsArray = JSON.parse(localStorage.getItem('productDetailsArray')) || [];
+    const productDetailsArray = JSON.parse(localStorage.getItem('productDetailsArray')) || [];
+    localStorage.setItem('originalProductDetails', JSON.stringify(productDetailsArray));
+
+    productDetailsArray.forEach((productDetails, index) => {
+        if (productDetails) {
+            const itemElement = `
+                <div class="item_header item_body" data-index="${index}">
+                    <div class="item_detail">
+                        <img src=${productDetails.image} alt="">
+                        <div class="name"><b>${productDetails.name}</b></div>
+                    </div>
+            
+                    <div class="price"><span>$</span>${productDetails.price}</div>
+                    <div class="count">
+                        <button class="decrease">-</button>
+                        <span class="quantity">${productDetails.quantity}</span>
+                        <button class="increase">+</button>
+                    </div> 
+                    <div class="amount">${productDetails.total}</div>
+                    <div class="operate">
+                        <button class="delete"><b>刪除</b></button>
+                    </div>
                 </div>
-        
-                <div class="price"><span>$</span>${productDetails.price}</div>
-                <div class="count">
-                    <button class="decrease">-</button>
-                    <span class="quantity">${productDetails.quantity}</span>
-                    <button class="increase">+</button>
-                </div> 
-                <div class="amount">${productDetails.total}</div>
-                <div class="operate">
-                    <button class="delete"><b>刪除</b></button>
-                </div>
-            </div>
-        `;
-        cartContainer.innerHTML = itemElement;
-        addEventListeners();
-    }
+            `;
+            cartContainer.innerHTML += itemElement;
+        }
+    });
+    addEventListeners();
     updateTotalPrice();
 };
 
@@ -142,59 +146,191 @@ function addEventListeners() {
 
 function decreaseQuantity(event) {
     const item = event.target.parentElement.parentElement;
+    const index = parseInt(item.dataset.index);
     const quantityElement = item.querySelector('.quantity');
     let quantity = parseInt(quantityElement.textContent);
     if (quantity > 1) {
         quantity--;
         quantityElement.textContent = quantity;
         updateTotal(item);
-        updateProductDetails(item, quantity); // 更新商品詳細資訊
+        updateProductDetails(index, quantity); // 更新商品詳細資訊
     }
 }
 
 function increaseQuantity(event) {
     const item = event.target.parentElement.parentElement;
+    const index = parseInt(item.dataset.index);
     const quantityElement = item.querySelector('.quantity');
     let quantity = parseInt(quantityElement.textContent);
-    quantity++;
-    quantityElement.textContent = quantity;
-    updateTotal(item);
-    updateProductDetails(item, quantity); // 更新商品詳細資訊
+
+    // 從 localStorage 獲取 originalProductDetailsArray
+    const originalProductDetailsArray = JSON.parse(localStorage.getItem('originalProductDetails')) || [];
+    console.log('originalProductDetailsArray', originalProductDetailsArray);
+
+    const originalProductDetails = originalProductDetailsArray[index];
+    console.log('originalProductDetails', originalProductDetails);
+
+    const originalQuantity = originalProductDetails.quantity;
+    console.log('originalQuantity', originalQuantity);
+
+    const original_product_id = originalProductDetails.id;
+    console.log('originalProduct_id', original_product_id);
+
+    // 從後端獲取庫存量
+    const url = '/product_stock/quantity/' + original_product_id + '/' + original_product_id;
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }})
+        .then(response => response.json())
+        .then(data => {
+            if (quantity < data.quantity + originalQuantity) {
+                quantity++;
+                quantityElement.textContent = quantity;
+                updateTotal(item);
+                updateProductDetails(index, quantity); // 更新商品詳細資訊
+            } else {
+                alert('數量不得大於庫存量');  // 如果數量大於庫存量，則顯示警告
+            }
+        });
+} 
+
+function updateProductDetails(index, quantity) {
+    const productDetailsArray = JSON.parse(localStorage.getItem('productDetailsArray'));
+    const productDetails = productDetailsArray[index];
+    productDetails.quantity = quantity;
+    productDetails.total = quantity * productDetails.price;
+    productDetailsArray[index] = productDetails;
+    localStorage.setItem('productDetailsArray', JSON.stringify(productDetailsArray)); // 儲存商品詳細資訊
 }
 
 function deleteItem(event) {
     const item = event.target.closest('.item_body');
+    const index = parseInt(item.dataset.index);
     item.remove();
     updateTotalPrice();
-    localStorage.removeItem('productDetails'); // 刪除商品詳細資訊
-}
+        
+    // 從 localStorage 獲取 originalProductDetailsArray
+    const originalProductDetailsArray = JSON.parse(localStorage.getItem('originalProductDetails')) || [];
+    console.log('originalProductDetailsArray', originalProductDetailsArray);
+    
+    const originalProductDetails = originalProductDetailsArray[index];
+    console.log('originalProductDetails', originalProductDetails);
 
-function updateProductDetails(item, quantity) {
-    const productDetails = JSON.parse(localStorage.getItem('productDetails'));
-    productDetails.quantity = quantity;
-    productDetails.total = quantity * productDetails.price;
-    localStorage.setItem('productDetails', JSON.stringify(productDetails)); // 儲存商品詳細資訊
-}
+    // 檢查 originalProductDetails 是否為 undefined
+    if (!originalProductDetails) {
+        console.error('無法找到商品詳細資訊');
+        return;
+    }
 
-function updateTotal(item) {
-    const quantity = parseInt(item.querySelector('.quantity').textContent);
-    const price = parseFloat(item.querySelector('.price').textContent.slice(1));
-    const total = quantity * price;
-    item.querySelector('.amount').textContent = total;
-    updateTotalPrice();
-}
+    const originalQuantity = originalProductDetails.quantity;
+    console.log('originalQuantity', originalQuantity);
 
-function updateTotalPrice() {
-    const items = document.querySelectorAll('.item_body:not(.total)');
-    let totalPrice = 0;
-    items.forEach(item => {
-        const total = parseFloat(item.querySelector('.amount').textContent);
-        totalPrice += total;
+    const original_product_id = originalProductDetails.id;
+    console.log('originalProduct_id', original_product_id);
+
+    const productDetailsArray = JSON.parse(localStorage.getItem('productDetailsArray'));
+    originalProductDetailsArray.splice(index, 1);
+    productDetailsArray.splice(index, 1);
+    localStorage.setItem('originalProductDetails', JSON.stringify(originalProductDetailsArray));
+    localStorage.setItem('productDetailsArray', JSON.stringify(productDetailsArray)); // 儲存商品詳細資訊
+    // 從後端獲取庫存量
+    const url2 = '/product_stock/increment_stock/' + original_product_id + '/' + original_product_id;
+
+    // 更新庫存
+    fetch(url2, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({amount: originalQuantity})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            console.log('庫存更新成功:', data.message);
+        } else {
+            console.error('庫存更新失敗:', data.error);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+
+    // 更新所有元素的 dataset.index
+    const items = document.querySelectorAll('.item_body');
+    items.forEach((item, index) => {
+        item.dataset.index = index;
     });
-    const totalElement = document.querySelector('.total .amount');
-    totalElement.textContent = totalPrice;
 }
-    </script>
+    function updateTotal(item) {
+        const quantity = parseInt(item.querySelector('.quantity').textContent);
+        const price = parseFloat(item.querySelector('.price').textContent.slice(1));
+        const total = quantity * price;
+        item.querySelector('.amount').textContent = total;
+        updateTotalPrice();
+    }
+
+    function updateTotalPrice() {
+        const items = document.querySelectorAll('.item_body:not(.total)');
+        let totalPrice = 0;
+        items.forEach(item => {
+            const total = parseFloat(item.querySelector('.amount').textContent);
+            totalPrice += total;
+        });
+        const totalElement = document.querySelector('.total .amount');
+        totalElement.textContent = totalPrice;
+    }
+    
+    async function handleCheckout() {
+    const productDetailsArray = JSON.parse(localStorage.getItem('productDetailsArray'));
+    if (!productDetailsArray || productDetailsArray.length === 0) {
+        alert('購物車是空的！');
+        return;
+    }
+    console.log('productDetailsArray', productDetailsArray);
+
+    // 計算總價格
+    let total_price = productDetailsArray.reduce((total, product) => total + product.price * product.quantity, 0);
+
+    try {
+        // 創建訂單
+        let userId = parseInt(localStorage.getItem('userId'));
+        let response = await fetch('{{ url_for("order.create_order") }} ', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                user_id: userId,
+                total_price: total_price,
+                order_time: new Date().toISOString()
+            })
+        });
+        let orderData = await response.json();
+        console.log('orderData', orderData);
+        
+        // 為每個產品創建訂單項目
+        for (let productDetails of productDetailsArray) {
+            response = await fetch('{{ url_for("product_order.create_product_order") }}', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    product_id: productDetails.id,
+                    order_id: orderData.order,
+                    quantity: productDetails.quantity
+                })
+            });
+            let productOrderData = await response.json();
+            console.log('productOrderData', productOrderData);
+        }
+
+        alert('訂單已成功創建！');
+        localStorage.removeItem('productDetailsArray'); // 清除購物車
+        window.location.href = '{{ url_for("default.index")}}'; // 重定向到主頁
+    } catch (error) {
+        console.error('Checkout failed:', error);
+        alert('結帳過程中發生錯誤。');
+    }
+}
+</script>
 </html>
 
 <style>

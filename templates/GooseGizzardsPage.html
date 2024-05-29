@@ -81,6 +81,126 @@
         function closeRoastedGooseBuyForm() {
             document.getElementById("MyGooseGizzardsBuyOverlay").style.display = "none";
         }
+
+        // 假設你的 product_id 和 stock_id 是 1 和 1
+    fetch('{{url_for("product_stock.get_quantity", product_id=6, stock_id=6)}}', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }})
+        .then(response => response.json())
+        .then(data => {
+            if (data.quantity !== null) {
+                console.log(data.quantity);
+                document.getElementById('inventoryCount').textContent = data.quantity;
+                document.getElementById('otherQuantity').max = data.quantity;  // 動態設定 max 屬性的值
+            } else {
+                console.error(data.error);
+            }
+        })
+    .catch(error => console.error('Error:', error));
+
+    // 獲取選擇的數量
+    const choice1 = document.getElementById('gooseGizzardsBuyChoice1');
+    const choice2 = document.getElementById('gooseGizzardsBuyChoice2');
+    const otherQuantity = document.getElementById('otherQuantity');
+
+    // 監聽 radio button 和 input 的變化
+    choice1.addEventListener('change', function() {
+        if (this.checked) {
+            choice2.checked = false;
+            otherQuantity.value = '';
+        }
+    });
+
+    choice2.addEventListener('change', function() {
+        if (this.checked) {
+            choice1.checked = false;
+            otherQuantity.value = '';
+        }
+    });
+
+    otherQuantity.addEventListener('input', function() {
+        if (this.value) {
+            choice1.checked = false;
+            choice2.checked = false;
+        }
+    });
+
+    document.querySelector('input[type="submit"]').addEventListener('click', function(event) {
+    event.preventDefault();  // 防止表單的預設提交行為
+
+    let quantity;
+    if (choice1.checked) {
+        quantity = 1;
+    } else if (choice2.checked) {
+        quantity = 2;
+    } else if (otherQuantity.value) {
+        quantity = parseInt(otherQuantity.value, 10);
+        if (isNaN(quantity)) {
+            alert('請輸入數字');
+            return;
+        }
+    }
+    else {
+        alert('請選擇一個選項或輸入其他數量');
+        return;
+    }
+
+    // 檢查數量是否在指定的範圍內
+    const maxQuantity = parseInt(document.getElementById('otherQuantity').max, 10);
+    if (quantity < 1 || quantity > maxQuantity) {
+        alert('數量必須在1和'+ maxQuantity +'之間');
+        return;
+    }
+
+    // 呼叫get_product_details API
+    fetch('{{url_for("product.get_product_details", product_id=6)}}' , {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }})
+        .then(response => response.json())
+        .then(data => {
+            const total = data.price * quantity;
+            const productDetails = {
+                ...data,
+                quantity: quantity,
+                total: total
+            };
+
+        // 從localStorage中獲取已經存在的商品詳情陣列
+        let productDetailsArray = JSON.parse(localStorage.getItem('productDetailsArray')) || [];
+
+        // 將新的商品詳情添加到陣列中
+        productDetailsArray.push(productDetails);
+
+        // 將更新後的商品詳情陣列存回localStorage
+        localStorage.setItem('productDetailsArray', JSON.stringify(productDetailsArray));
+        
+        // 更新庫存
+        fetch('{{url_for("product_stock.decrement_stock", product_id=6, stock_id=6)}}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({amount: quantity})
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    console.log('庫存更新成功:', data.message);
+                    // 跳轉到購物車頁面
+                    window.location.href = "{{ url_for('default.cart') }}";
+                } else {
+                    console.error('庫存更新失敗:', data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+
+            console.log('quantity:', quantity);
+        });
+    });
     </script>
 
     <!-- AddCart -->

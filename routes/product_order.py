@@ -15,7 +15,7 @@ def create_product_order():
 
     product_order, message = ProductOrderService.create_product_order(product_id, order_id, quantity)
     if product_order:
-        return jsonify({"message": message, "product_order": product_order.id}), 201
+        return jsonify({"message": message, "product_order": product_order.id, "order_id": product_order.order_id}), 201
     else:
         return jsonify({"error": message}), 400
 

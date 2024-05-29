@@ -6,6 +6,7 @@ class Product(db.Model):
     description = db.Column(db.String(80), nullable=False)
     image = db.Column(db.String(80), nullable=False)
     price = db.Column(db.String(80), nullable=False)
+    product_orders = db.relationship('Product_order', back_populates='product', lazy=True)
     stocks = db.relationship('Product_stock', backref='ProductStock_product', lazy=True)
 
     def __repr__(self):

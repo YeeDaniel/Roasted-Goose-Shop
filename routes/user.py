@@ -36,7 +36,7 @@ def login():
 
     if login_user:
         session["logged_in"] = True
-        return jsonify({'success': '登入成功'}), 200
+        return jsonify({'success': '登入成功', 'id': login_user.id }), 200
     else:
         return jsonify({'error': '登入失敗'}), 400
 
