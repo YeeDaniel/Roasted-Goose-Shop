@@ -1,4 +1,4 @@
-from flask import request, Blueprint, jsonify
+from flask import request, Blueprint, jsonify, session
 from services import ProductService
 
 product = Blueprint('product', __name__)
@@ -48,6 +48,15 @@ def get_product_details(product_id):
             'image': product.image,
             'price': product.price
         }
+        # 將產品資訊添加到 session 中的購物車
+        if 'cart' not in session:
+            session['cart'] = []
+
+        session['cart'].append(product_details)
+
+        # 儲存 session
+        session.modified = True
+        
         return jsonify(product_details), 200
     else:
         return jsonify({"error": "Product not found"}), 404
