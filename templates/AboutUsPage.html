@@ -1,141 +1,115 @@
 <!DOCTYPE html>
 <html lang="zh-tw">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AboutUsPage</title>
-</head>
-<body>
-    <div class="navbar">
-        <div class="logo-container">
-            <img src="/static/images/Logo.png" class="logo">
-            <a href="{{ url_for('default.index') }}"><span class="stroked-text">鵝邸家燒鵝專賣</span></a>
-        </div>
-        <div class="menu">
-            <!-- 你的菜單、關於我們、港式燒鵝、蜜汁叉燒、香濃滷水、聯絡我們、購物車的連結放在這裡 -->
-            <a href="{{ url_for('default.menu') }}">菜單</a>
-            <a href="{{ url_for('default.about') }}" id="about-us-link">關於我們</a>
-            <a href="{{ url_for('default.roastedGoose') }}">港式燒鵝</a>
-            <a href="{{ url_for('default.barbecuePork') }}">蜜汁叉燒</a>
-            <div class="dropdown">
-                <button class="dropbtn">香濃滷水
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="{{ url_for('default.gooseWing') }}">鵝翅</a>
-                    <a href="{{ url_for('default.goostFeet') }}">鵝腳</a>
-                    <a href="{{ url_for('default.foieGras') }}">鵝肝</a>
-                    <a href="{{ url_for('default.GooseGzzards') }}">鵝胗</a>
-                </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>AboutUsPage</title>
+    </head>
+    <body>
+        {% if logged_in %}
+        <div class="navbar">
+            <div class="logo-container">
+                <img src="/static/images/Logo.png" class="logo" />
+                <a href="{{ url_for('default.index') }}"
+                    ><span class="stroked-text">鵝邸家燒鵝專賣</span></a
+                >
             </div>
-            <div class="dropdown">
-                <button class="dropbtn">聯絡我們
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="https://line.me/ti/p/CxP7SyImh7">老闆的Line</a>
-                    <a href="https://lin.ee/ByDc8Vl">鵝邸家Line官方帳號</a>
-                    <a href="https://www.facebook.com/goosehometa?notif_id=1707036023329618&notif_t=profile_plus_admin_invite&ref=notif&locale=zh_TW">FB粉絲專頁</a>
+            <div class="menu">
+                <!-- 你的菜單、關於我們、港式燒鵝、蜜汁叉燒、香濃滷水、聯絡我們、購物車的連結放在這裡 -->
+                <a href="{{ url_for('default.menu') }}">菜單</a>
+                <a href="{{ url_for('default.about') }}" id="about-us-link"
+                    >關於我們</a
+                >
+                <a href="{{ url_for('default.roastedGoose') }}">港式燒鵝</a>
+                <a href="{{ url_for('default.barbecuePork') }}">蜜汁叉燒</a>
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        香濃滷水
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('default.gooseWing') }}">鵝翅</a>
+                        <a href="{{ url_for('default.goostFeet') }}">鵝腳</a>
+                        <a href="{{ url_for('default.foieGras') }}">鵝肝</a>
+                        <a href="{{ url_for('default.GooseGizzards') }}"
+                            >鵝胗</a
+                        >
+                    </div>
                 </div>
-            </div>
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        聯絡我們
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="https://line.me/ti/p/CxP7SyImh7">老闆的Line</a>
+                        <a href="https://lin.ee/ByDc8Vl">鵝邸家Line官方帳號</a>
+                        <a
+                            href="https://www.facebook.com/goosehometa?notif_id=1707036023329618&notif_t=profile_plus_admin_invite&ref=notif&locale=zh_TW"
+                            >FB粉絲專頁</a
+                        >
+                    </div>
+                </div>
 
-            <a href="{{ url_for('default.cart') }}" class="cart-link"><img src="/static/images/CartLogo.png" class="cartLogo">購物車</a>
+                <a href="{{ url_for('default.cart') }}" class="cart-link"
+                    ><img
+                        src="/static/images/CartLogo.png"
+                        class="cartLogo"
+                    />購物車</a
+                >
 
-            <div class="login-button">
-                <button class="openbtn" onclick="openLoginForm()"><span><b>點我登入</b></span></button>
-            </div>
-
-            <!-- login overlay -->
-            <div id="myLoginOverlay" class="loginOverlay">
-                <div class="wrapLogin">
-                    <span class="closebtnLogin" onclick="closeLoginForm()" title="Close loginOverlay"> &#215 </span>
-                    <h2>登入</h2>
-                    <form>
-                        <label for="" class="Email"><b>Email</b></label>
-                        <input id="bgc" type="email" placeholder="Email"  required>
-                        <label for="" class="password"><b>密碼</b></label>
-                        <input id="bgc" type="password" placeholder="密碼" id="password" required>
-                        <input type="submit" value="點我登入">
-                        <div id="line"></div>
-                        <div class="googleLogin">
-                            <button class="google-button">
-                                <img src="/static/images/Group 3019.svg" alt="Google Icon">
-                                <span>登入Google以繼續</span>
-                            </button>
-                        </div>
-                        <p>還沒有帳戶?    <span onclick="openSignUpAndCloseLogin()">點我註冊！</span></p>
-                    </form>
+                <div class="login-button">
+                    <a href="{{ url_for('user.logout') }}" class="click-link"
+                        >點我登出</a
+                    >
                 </div>
             </div>
-            
-            <script>
-                function openLoginForm() {
-                    document.getElementById("myLoginOverlay").style.display = "block";
-                }
-            
-                function closeLoginForm() {
-                    document.getElementById("myLoginOverlay").style.display = "none";
-                }
-                // 打開 "SignUp" 的 Overlay 並關閉 "Login" 的 Overlay
-                function openSignUpAndCloseLogin() {
-                document.getElementById('mySignUpOverlay').style.display = 'block';
-                document.getElementById('myLoginOverlay').style.display = 'none';
-            }
-            </script>
-            
-            <!-- Login to SignUp -->
-            <div id="mySignUpOverlay" class="SignUpOverlay">
-                <div class="wrapLogin">
-                    <span class="closebtnLogin" onclick="closeSignUpForm()" title="Close SignUpOverlay"> &#215 </span>
-                    <h2>註冊</h2>
-                    <form>
-                        <label for="" class="username"><b>使用者名稱</b></label>
-                        <input id="bgc" type="text" placeholder="使用者名稱" required>
-                        <label for="" class="Email"><b>Email</b></label>
-                        <input id="bgc" type="email" placeholder="Email" required>
-                        <label for="" class="password"><b>密碼</b></label>
-                        <input id="bgc" type="password" placeholder="密碼" required>
-                        <input type="submit" value="點我註冊">
-                    </form>
+        </div>
+        <!-- end navbar-->
+        <div class="AboutUsPageBackGround">
+            <div class="title">
+                <span><b>金牌燒鵝的故事</b></span>
+                <div class="greenTitleLine"></div>
+            </div>
+            <div class="firstBlock">
+                <div class="firstTitle">
+                    <span class="firstUpper"><b>嚴選白羅曼鵝</b></span>
+                    <div class="greenLine"></div>
+                    <span class="firstLower"
+                        >特別選用養殖七七四十九天的母鵝，並且選用7斤重的重量，這也構成口感肥美的關鍵！</span
+                    >
+                    <a
+                        href="https://www.facebook.com/goosehometa?notif_id=1707036023329618&notif_t=profile_plus_admin_invite&ref=notif&locale=zh_TW"
+                        class="clickMeSeeMore"
+                    ></a>
+                </div>
+                <div class="firstGraph">
+                    <div class="whiteGoose"></div>
                 </div>
             </div>
-            <script>
-                function closeSignUpForm() {
-                    document.getElementById("mySignUpOverlay").style.display = "none";
-                }
-            </script>
-        </div>
-    </div><!-- end navbar-->
-    <div class="AboutUsPageBackGround">
-        <div class="title">
-            <span><b>金牌燒鵝的故事</b></span>
-            <div class="greenTitleLine"></div>
-        </div>
-        <div class="firstBlock">
-            <div class="firstTitle">
-                <span class="firstUpper"><b>嚴選白羅曼鵝</b></span>
-                <div class="greenLine"></div>
-                <span class="firstLower">特別選用養殖七七四十九天的母鵝，並且選用7斤重的重量，這也構成口感肥美的關鍵！</span>
-                <a href="https://www.facebook.com/goosehometa?notif_id=1707036023329618&notif_t=profile_plus_admin_invite&ref=notif&locale=zh_TW" class="clickMeSeeMore"></a>
-            </div>
-            <div class="firstGraph">
-                <div class="whiteGoose"></div>
+            <div class="secondBlock">
+                <div class="secondGraph">
+                    <div class="myRoastedGoose"></div>
+                </div>
+                <div class="secondTitle">
+                    <span class="secondUpper"><b>堅持純炭火烤制</b></span>
+                    <div class="greenLine"></div>
+                    <span class="secondLower"
+                        >與坊間不同，我們選用木炭來烤制燒鵝，不只增添了鵝肉的香氣，同時也帶給顧客味蕾上尊爵的體驗，齒頰留香！</span
+                    >
+                    <a
+                        href="https://www.facebook.com/goosehometa?notif_id=1707036023329618&notif_t=profile_plus_admin_invite&ref=notif&locale=zh_TW"
+                        class="clickMeSeeMore"
+                    ></a>
+                </div>
             </div>
         </div>
-        <div class="secondBlock">
-            <div class="secondGraph">
-                <div class="myRoastedGoose"></div>
-            </div>
-            <div class="secondTitle">
-                <span class="secondUpper"><b>堅持純炭火烤制</b></span>
-                <div class="greenLine"></div>
-                <span class="secondLower">與坊間不同，我們選用木炭來烤制燒鵝，不只增添了鵝肉的香氣，同時也帶給顧客味蕾上尊爵的體驗，齒頰留香！</span>
-                <a href="https://www.facebook.com/goosehometa?notif_id=1707036023329618&notif_t=profile_plus_admin_invite&ref=notif&locale=zh_TW" class="clickMeSeeMore"></a>  
-            </div>
-        </div>
-        
-    </div>
-</body>
+        {% else %}
+        <script>
+            window.location.href = "{{ url_for('default.login') }}";
+        </script>
+        {% endif %}
+    </body>
 </html>
 <style>
     /* navbar */
@@ -145,79 +119,74 @@
         border: 0;
         overflow-x: hidden;
     }
-        
+
     .navbar {
         width: 100vw;
         height: 8vh;
         overflow: hidden;
-        background-color: #FAF0D8;
+        background-color: #faf0d8;
         display: flex;
         justify-content: space-between;
-        align-items: center;  /* 修改的行 */
+        align-items: center; /* 修改的行 */
     }
-    
-    
+
     .navbar .logo-container {
         display: flex;
         align-items: center;
         margin-right: 4px;
     }
-    
+
     .navbar .logo-container a span {
-        margin-left: -10px;  /* 新增的行 */
+        margin-left: -10px; /* 新增的行 */
     }
-    
+
     .stroked-text {
         color: white;
-        text-shadow:
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000,
-        2px 2px 5px rgba(0, 0, 0, 0.5);  /* drop shadow */
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+            1px 1px 0 #000, 2px 2px 5px rgba(0, 0, 0, 0.5); /* drop shadow */
         letter-spacing: 2px;
     }
-    
+
     .navbar .logo-container img {
         transform: scale(0.35);
         margin-right: 10px;
         white-space: nowrap;
     }
-    
+
     .navbar .logo-container span {
-        margin-right: 10px;  /* 新增的行 */
+        margin-right: 10px; /* 新增的行 */
         font-size: 2vw;
-        color: #EB6D20;
+        color: #eb6d20;
         font-weight: bold;
         white-space: nowrap;
     }
-    
+
     .navbar .menu {
         display: flex;
         align-items: center;
         top: 0;
         flex-grow: 1;
     }
-    
+
     .navbar .menu a {
-        margin: 0 10px;  /* 設定左右邊距為10px */
+        margin: 0 10px; /* 設定左右邊距為10px */
         font-size: 1.25vw;
         font-weight: bold;
         white-space: nowrap;
     }
-    
+
     .navbar .menu .dropdown {
         margin: 0 10px;
         font-size: 1.25vw;
         white-space: nowrap;
     }
-    
+
     .navbar .menu .dropdown .dropbtn {
         font-size: 1.25vw;
         font-weight: bold;
         white-space: nowrap;
     }
-    
+
     .navbar a {
         float: left;
         font-size: 16px;
@@ -226,17 +195,17 @@
         padding: 14px 16px;
         text-decoration: none;
     }
-    
+
     .navbar a:hover {
         background-color: #3e3e3e;
         color: black;
     }
-    
+
     .dropdown {
         float: left;
         overflow: hidden;
     }
-    
+
     .dropdown .dropbtn {
         font-size: 16px;
         border: none;
@@ -247,21 +216,22 @@
         font-family: inherit;
         margin: 0;
     }
-    
-    .navbar a:hover, .dropdown:hover .dropbtn {
+
+    .navbar a:hover,
+    .dropdown:hover .dropbtn {
         background-color: #ddd;
         color: black;
     }
-    
+
     .dropdown-content {
         display: none;
         position: absolute;
         background-color: #f9f9f9;
         min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         z-index: 1;
     }
-    
+
     .dropdown-content a {
         float: none;
         color: black;
@@ -270,65 +240,60 @@
         display: block;
         text-align: left;
     }
-    
+
     .dropdown-content a:hover {
         background-color: #ddd;
     }
-    
+
     .dropdown:hover .dropdown-content {
         display: block;
     }
-    
+
     .cart-link {
-        display: flex;  /* 新增的行 */
-        align-items: center;  /* 新增的行 */
+        display: flex; /* 新增的行 */
+        align-items: center; /* 新增的行 */
     }
-    
+
     .cartLogo {
         transform: scale(0.8);
     }
-    
-    .login-button button {
-        background-color: #EB6D20;  /* 設定背景色為橘色 */
-        border-radius: 40px;  /* 設定邊框半徑為50px，創建長橢圓形效果 */
+
+    .login-button a {
+        background-color: #eb6d20; /* 設定背景色為橘色 */
+        border-radius: 40px; /* 設定邊框半徑為50px，創建長橢圓形效果 */
         box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.5);
-        color: white;  /* 設定文字顏色為白色 */
-        padding: 10px 20px;  /* 設定內邊距，使按鈕變大 */
-        text-decoration: none;  /* 移除文字裝飾 */
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* 設定文字陰影 */
-    } 
-    
-    .login-button button:hover {
-        background-color: #846E82;
+        color: white; /* 設定文字顏色為白色 */
+        padding: 10px 20px; /* 設定內邊距，使按鈕變大 */
+        text-decoration: none; /* 移除文字裝飾 */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 設定文字陰影 */
+    }
+
+    .login-button a:hover {
+        background-color: #846e82;
         color: #fff;
     }
-    
-    .login-button button span {
-        font-weight: bold;
-        font-size: 1em;
-    }
     /* end navbar */
-    
+
     /* login */
     .wrapLogin {
-        width: 50%;  /* 修改的行 */
-        height: 60%;  /* 修改的行 */
-        position: absolute;  /* 修改的行 */
-        top: 40%;  /* 修改的行 */
-        left: 50%;  /* 修改的行 */
-        transform: translate(-50%, -50%);  /* 修改的行 */
+        width: 50%; /* 修改的行 */
+        height: 50%; /* 修改的行 */
+        position: absolute; /* 修改的行 */
+        top: 40%; /* 修改的行 */
+        left: 50%; /* 修改的行 */
+        transform: translate(-50%, -50%); /* 修改的行 */
         min-width: 350px;
         margin: auto;
         padding: 20px;
-        background: #E0D6C3;
+        background: #e0d6c3;
         margin-top: 100px;
         border-radius: 20px;
     }
-    
+
     .wrapLogin form {
         margin-top: 50px;
     }
-    
+
     .wrapLogin input {
         width: 100%;
         padding: 10px;
@@ -340,72 +305,71 @@
         font-style: 15px;
         border-radius: 5px;
     }
-    
-    #bgc {
+
+    .bgc {
         background-color: #808080;
-        opacity: 0.5;  /* 根據你的需求調整 */
+        opacity: 0.5; /* 根據你的需求調整 */
     }
-    
+
     .wrapLogin input::placeholder {
-        color: #000000;  /* 根據你的需求調整 */
+        color: #000000; /* 根據你的需求調整 */
     }
-    
-    
+
     .wrapLogin h2 {
         margin: 0;
         padding: 0;
         font-size: 2em;
         text-align: center;
     }
-    
+
     .wrapLogin input[type="submit"] {
         font-size: 16px;
         margin-top: 30px;
         color: #fff;
         font-weight: bold;
-        background: #846E82;
+        background: #846e82;
         border: 1px solid #fff;
         cursor: pointer;
     }
-    
+
     .wrapLogin input[type="submit"]:hover {
-        background: #EB6D20;
+        background: #eb6d20;
         color: #fff;
     }
-    
+
     .googleLogin {
         margin-top: 1vh;
-        width: 100%;  /* 根據你的需求調整 */
-        height: 100%;  /* 根據你的需求調整 */
+        width: 100%; /* 根據你的需求調整 */
+        height: 100%; /* 根據你的需求調整 */
         border: 1px solid gray;
     }
-    
+
     .google-button {
         display: flex;
         align-items: center;
-        justify-content: center;  /* 新增的行 */
+        justify-content: center; /* 新增的行 */
         width: 100%;
         background-color: #000;
     }
-    
+
     .google-button img {
-        margin-right: 0.5em;  /* 根據你的需求調整 */
-        width: 2em;  /* 新增的行 */
-        height: 5vh;  /* 新增的行 */
-        vertical-align: middle;  /* 新增的行 */
+        margin-right: 0.5em; /* 根據你的需求調整 */
+        width: 2em; /* 新增的行 */
+        height: 5vh; /* 新增的行 */
+        vertical-align: middle; /* 新增的行 */
     }
-    
+
     .google-button span {
         color: #fff;
-        font-size: 1em;  /* 新增的行 */
-        font-weight: bold;  /* 新增的行 */
+        font-size: 1em; /* 新增的行 */
+        font-weight: bold; /* 新增的行 */
         margin-left: 5px;
     }
-    
+
     .googleLogin :hover {
-        background-color: #EB6D20;
+        background-color: #eb6d20;
     }
-    
+
     .wrapLogin input[type="clickMeRegister"] {
         font-size: 16px;
         margin-top: 30px;
@@ -415,7 +379,7 @@
         cursor: pointer;
         text-align: center;
     }
-    
+
     .wrapLogin p {
         font-size: 1em;
         color: #000;
@@ -423,13 +387,12 @@
         text-align: center;
         margin-top: 5vh;
     }
-    
+
     .wrapLogin p span {
-        color: #EB6D20;
+        color: #eb6d20;
         cursor: pointer;
-    
     }
-    
+
     .openbtnLogin {
         background: #f1f1f1;
         border: none;
@@ -438,11 +401,11 @@
         cursor: pointer;
         float: right;
     }
-    
+
     .openbtnLogin:hover {
-        background: #EB6D20;
+        background: #eb6d20;
     }
-    
+
     .loginOverlay {
         height: 100%;
         width: 100%;
@@ -453,7 +416,7 @@
         left: 0;
         background-color: rgba(0, 0, 0, 0.7);
     }
-    
+
     .SignUpOverlay {
         height: 100%;
         width: 100%;
@@ -464,7 +427,7 @@
         left: 0;
         background-color: rgba(0, 0, 0, 0.7);
     }
-    
+
     .closebtnLogin {
         position: absolute;
         top: 20px;
@@ -473,79 +436,78 @@
         cursor: pointer;
         color: #fff;
     }
-    
+
     .closebtnLogin:hover {
-        color: #EB6D20;
+        color: #eb6d20;
     }
-    
-    
+
     #line {
-        background: url('/static/images/Line 2.png');
+        background: url("/static/images/Line 2.png");
         background-size: auto 100%;
         height: 5px;
         width: 100%;
         margin-top: 5px;
-        border-top: 1px solid #FDFAF3;  /* 根據你的需求調整 */
+        border-top: 1px solid #fdfaf3; /* 根據你的需求調整 */
     }
     /* end login */
-    
+
     #about-us-link {
-        color: #EB6D20;  /* 新增的行 */
+        color: #eb6d20; /* 新增的行 */
     }
     .AboutUsPageBackGround {
         background-color: rgba(250, 240, 216, 0.5);
         width: 100vw;
         height: 120vh;
     }
-    
+
     .AboutUsPageBackGround .title {
         width: 100vw;
         height: 15vh;
-        display: flex;  /* 修改的行 */
-        flex-direction: column;  /* 新增的行 */
-        justify-content: center;  /* 新增的行 */
-        align-items: center;  /* 新增的行 */
+        display: flex; /* 修改的行 */
+        flex-direction: column; /* 新增的行 */
+        justify-content: center; /* 新增的行 */
+        align-items: center; /* 新增的行 */
     }
-    
+
     .AboutUsPageBackGround .title span {
         font-size: 3.5em;
         text-align: center;
     }
-    
+
     .AboutUsPageBackGround .title .greenTitleLine {
-        background: url('/static/images/GreenLineTitle.png') no-repeat;
+        background: url("/static/images/GreenLineTitle.png") no-repeat;
         background-size: 100% auto;
         height: 3vh;
         width: 30vw;
         display: inline-block;
         margin-top: 2vh;
     }
-    
+
     .AboutUsPageBackGround .firstBlock {
         width: 100vw;
         height: 50vh;
-        display: flex;  /* 新增的行 */
-        align-items: center;  /* 新增的行 */
+        display: flex; /* 新增的行 */
+        align-items: center; /* 新增的行 */
     }
-    
+
     .AboutUsPageBackGround .firstBlock .firstTitle {
         width: 50vw;
         height: 47.5vh;
-        display: flex;  /* 修改的行 */
-        flex-direction: column;  /* 新增的行 */
-        justify-content: center;  /* 新增的行 */
-        align-items: center;  /* 新增的行 */
+        display: flex; /* 修改的行 */
+        flex-direction: column; /* 新增的行 */
+        justify-content: center; /* 新增的行 */
+        align-items: center; /* 新增的行 */
         margin-top: 5vh;
     }
-    
+
     .AboutUsPageBackGround .firstBlock .firstTitle .firstUpper {
         font-size: 3em;
         text-align: center;
         margin-left: 10vw;
     }
-    
+
     .AboutUsPageBackGround .firstBlock .firstTitle .greenLine {
-        background: url('/static/images/GreenLine.png') no-repeat;
+        background: url("/static/images/GreenLine.png") no-repeat;
         background-size: 100% auto;
         width: 30vw;
         height: 3vh;
@@ -553,16 +515,15 @@
         margin-top: 3vh;
         margin-left: 20vw;
     }
-    
+
     .AboutUsPageBackGround .firstBlock .firstTitle .firstLower {
-    
         font-size: 1.9em;
         color: #848383;
         margin-left: 20vw;
     }
-    
+
     .AboutUsPageBackGround .firstBlock .firstTitle .clickMeSeeMore {
-        background: url('/static/images/ClickMeSeeMore.png') no-repeat;
+        background: url("/static/images/ClickMeSeeMore.png") no-repeat;
         background-size: auto auto;
         width: 25vw;
         height: 15vh;
@@ -570,82 +531,81 @@
         margin-left: 20vw;
         margin-top: 2vh;
     }
-    
+
     .AboutUsPageBackGround .firstBlock .firstGraph {
         width: 100vw;
         height: 47.5vh;
-        display: flex;  /* 修改的行 */
-        flex-direction: column;  /* 新增的行 */
-        justify-content: center;  /* 新增的行 */
-        align-items: center;  /* 新增的行 */
+        display: flex; /* 修改的行 */
+        flex-direction: column; /* 新增的行 */
+        justify-content: center; /* 新增的行 */
+        align-items: center; /* 新增的行 */
     }
     .AboutUsPageBackGround .firstBlock .firstGraph .whiteGoose {
-        background: url('/static/images/WhiteGoose.png') no-repeat;
+        background: url("/static/images/WhiteGoose.png") no-repeat;
         background-size: cover;
         width: 25vw;
         height: 47.5vh;
         margin-left: 10vw;
     }
-    
+
     .AboutUsPageBackGround .secondBlock {
         width: 100vw;
         height: 50vh;
-        display: flex;  /* 新增的行 */
-        align-items: center;  /* 新增的行 */
-        
+        display: flex; /* 新增的行 */
+        align-items: center; /* 新增的行 */
     }
-    
+
     .AboutUsPageBackGround .secondBlock .secondGraph {
         width: 50vw;
         height: 47.5vh;
-        display: flex;  /* 修改的行 */
-        flex-direction: column;  /* 新增的行 */
-        justify-content: center;  /* 新增的行 */
-        align-items: center;  /* 新增的行 */
+        display: flex; /* 修改的行 */
+        flex-direction: column; /* 新增的行 */
+        justify-content: center; /* 新增的行 */
+        align-items: center; /* 新增的行 */
     }
-    
+
     .AboutUsPageBackGround .secondBlock .secondGraph .myRoastedGoose {
-        background: url('/static/images/MyRoastedGoose.png') no-repeat;
+        background: url("/static/images/MyRoastedGoose.png") no-repeat;
         background-size: cover;
         width: 20vw;
         height: 47.5vh;
         margin-left: 10vw;
         margin-top: 10vh;
     }
-    
+
     .AboutUsPageBackGround .secondBlock .secondTitle {
         width: 40vw;
         height: 47.5vh;
-        display: flex;  /* 修改的行 */
-        flex-direction: column;  /* 新增的行 */
-        justify-content: center;  /* 新增的行 */
-        align-items: center;  /* 新增的行 */
+        display: flex; /* 修改的行 */
+        flex-direction: column; /* 新增的行 */
+        justify-content: center; /* 新增的行 */
+        align-items: center; /* 新增的行 */
         margin-top: 5vh;
     }
-    
+
     .AboutUsPageBackGround .secondBlock .secondTitle .secondUpper {
         font-size: 3em;
         text-align: center;
         margin-right: 7vw;
     }
-    
+
     .AboutUsPageBackGround .secondBlock .secondTitle .greenLine {
-        background: url('/static/images/GreenLine.png') no-repeat;
+        background: url("/static/images/GreenLine.png") no-repeat;
         background-size: 100% auto;
         width: 30vw;
         height: 3vh;
         display: inline-block;
         margin-top: 3vh;
     }
-    
+
     .AboutUsPageBackGround .secondBlock .secondTitle .secondLower {
         font-size: 1.9em;
         color: #848383;
         margin-left: 5vw;
     }
-    
+
     .AboutUsPageBackGround .secondBlock .secondTitle .clickMeSeeMore {
-        background: url('/static/images/ClickMeSeeMore.png') no-repeat;
+        background: url("/static/images/ClickMeSeeMore.png") no-repeat;
         background-size: auto auto;
         width: 25vw;
         height: 15vh;
@@ -653,5 +613,4 @@
         margin-left: 10vw;
         margin-top: 2vh;
     }
-    
-    </style>
+</style>

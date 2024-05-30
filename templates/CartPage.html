@@ -1,619 +1,842 @@
 <!DOCTYPE html>
 <html lang="zh-tw">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CartPage</title>
-</head>
-<body>
-    <div class="navbar">
-        <div class="logo-container">
-            <img src="/static/images/Logo.png" class="logo">
-            <a href="{{ url_for('default.index') }}"><span class="stroked-text">鵝邸家燒鵝專賣</span></a>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CartPage</title>
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="logo-container">
+                <img src="/static/images/Logo.png" class="logo" />
+                <a href="{{ url_for('default.index') }}"
+                    ><span class="stroked-text">鵝邸家燒鵝專賣</span></a
+                >
+            </div>
+            <div class="menu">
+                <!-- 你的菜單、關於我們、港式燒鵝、蜜汁叉燒、香濃滷水、聯絡我們、購物車的連結放在這裡 -->
+                <a href="{{ url_for('default.menu') }}">菜單</a>
+                <a href="{{ url_for('default.about') }}">關於我們</a>
+                <a href="{{ url_for('default.roastedGoose') }}">港式燒鵝</a>
+                <a href="{{ url_for('default.barbecuePork') }}">蜜汁叉燒</a>
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        香濃滷水
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('default.gooseWing') }}">鵝翅</a>
+                        <a href="{{ url_for('default.goostFeet') }}">鵝腳</a>
+                        <a href="{{ url_for('default.foieGras') }}">鵝肝</a>
+                        <a href="{{ url_for('default.GooseGizzards') }}"
+                            >鵝胗</a
+                        >
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        聯絡我們
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="https://line.me/ti/p/CxP7SyImh7">老闆的Line</a>
+                        <a href="https://lin.ee/ByDc8Vl">鵝邸家Line官方帳號</a>
+                        <a
+                            href="https://www.facebook.com/goosehometa?notif_id=1707036023329618&notif_t=profile_plus_admin_invite&ref=notif&locale=zh_TW"
+                            >FB粉絲專頁</a
+                        >
+                    </div>
+                </div>
+
+                <a
+                    href="{{ url_for('default.cart') }}"
+                    id="Cart-link"
+                    class="cart-link"
+                    ><img
+                        src="/static/images/CartLogoOrange.png"
+                        class="cartLogo"
+                    />購物車</a
+                >
+
+                <div class="login-button">
+                    <a href="{{ url_for('user.logout') }}" class="click-link"
+                        >點我登出</a
+                    >
+                </div>
+            </div>
         </div>
-        <div class="menu">
-            <!-- 你的菜單、關於我們、港式燒鵝、蜜汁叉燒、香濃滷水、聯絡我們、購物車的連結放在這裡 -->
-            <a href="{{ url_for('default.menu') }}">菜單</a>
-            <a href="{{ url_for('default.about') }}">關於我們</a>
-            <a href="{{ url_for('default.roastedGoose') }}">港式燒鵝</a>
-            <a href="{{ url_for('default.barbecuePork') }}">蜜汁叉燒</a>
-            <div class="dropdown">
-                <button class="dropbtn">香濃滷水
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="{{ url_for('default.gooseWing') }}">鵝翅</a>
-                    <a href="{{ url_for('default.goostFeet') }}">鵝腳</a>
-                    <a href="{{ url_for('default.foieGras') }}">鵝肝</a>
-                    <a href="{{ url_for('default.GooseGzzards') }}">鵝胗</a>
+        <!-- end navbar-->
+        <div id="app">
+            <div class="container">
+                <div class="item_header">
+                    <div class="item_detail"><b>商品</b></div>
+                    <div class="price"><b>單價</b></div>
+                    <div class="count"><b>數量</b></div>
+                    <div class="amount"><b>總計</b></div>
+                    <div class="operate"><b>操作</b></div>
+                </div>
+                <div id="cartItems"></div>
+
+                <!-- <div class="item_header item_body">
+                    <div class="item_detail">
+                        <img src="/static/images/2023ChampionRoastedGoose.jpg" alt="">
+                        <div class="name"><b>金牌港式燒鵝</b></div>
+                    </div>
+        
+                    <div class="price"><span>$</span>1500</div>
+                    <div class="count">
+                        <button>-</button>
+                        <span>1</span>
+                        <button>+</button>
+                    </div> 
+                    <div class="amount">1500</div>
+                    <div class="operate">
+                        <button><b>刪除</b></button>
+                    </div>
+                </div>       -->
+
+                <div class="item_header item_body total">
+                    <div class="item_detail">
+                        <!-- <img src="GooseWing.jpg" alt=""> -->
+                        <div class="name"><b>總共</b></div>
+                    </div>
+
+                    <div class="price"></div>
+                    <div class="count"></div>
+                    <div class="amount">0</div>
+                    <div class="checkbtn">
+                        <button onclick="handleCheckout()"><b>結帳</b></button>
+                    </div>
                 </div>
             </div>
-            <div class="dropdown">
-                <button class="dropbtn">聯絡我們
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="https://line.me/ti/p/CxP7SyImh7">老闆的Line</a>
-                    <a href="https://lin.ee/ByDc8Vl">鵝邸家Line官方帳號</a>
-                    <a href="https://www.facebook.com/goosehometa?notif_id=1707036023329618&notif_t=profile_plus_admin_invite&ref=notif&locale=zh_TW">FB粉絲專頁</a>
-                </div>
-            </div>
+        </div>
+    </body>
+    <script>
+        window.onload = function() {
+            const cartContainer = document.getElementById('cartItems');
+            const originalProductDetailsArray = {{ session_productDetailsArray|tojson|safe }};
+            const productDetailsArray = {{ session_productDetailsArray|tojson|safe }};
 
-            <a href="{{ url_for('default.cart') }}" id="Cart-link" class="cart-link"><img src="/static/images/CartLogoOrange.png" class="cartLogo">購物車</a>
+            fetch('{{url_for("default.updateSession")}}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({originalProductDetails: productDetailsArray})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        console.log('Session 更新成功:', data.message);
+                        openSuccessAndCloseAddCart();
+                    } else {
+                        console.error('Session 更新失敗:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
 
-            <div class="login-button">
-                <button class="openbtn" onclick="openLoginForm()"><span><b>點我登入</b></span></button>
-            </div>
+            productDetailsArray.forEach((productDetails, index) => {
+                if (productDetails) {
+                    const itemElement = `
+                        <div class="item_header item_body" data-index="${index}">
+                            <div class="item_detail">
+                                <img src=${productDetails.image} alt="">
+                                <div class="name"><b>${productDetails.name}</b></div>
+                            </div>
 
-            <!-- login overlay -->
-            <div id="myLoginOverlay" class="loginOverlay">
-                <div class="wrapLogin">
-                    <span class="closebtnLogin" onclick="closeLoginForm()" title="Close loginOverlay"> &#215 </span>
-                    <h2>登入</h2>
-                    <form>
-                        <label for="email" class="Email"><b>Email</b></label>
-                        <input class="bgc" id="email" type="email" placeholder="Email"  required>
-                        <label for="password" class="password"><b>密碼</b></label>
-                        <input class="bgc" id="password" type="password" placeholder="密碼" id="password" required>
-                        <input type="submit" value="點我登入">
-                        <div id="line"></div>
-                        <div class="googleLogin">
-                            <button class="google-button">
-                                <img src="/static/images/Group 3019.svg" alt="Google Icon">
-                                <span>登入Google以繼續</span>
-                            </button>
+                            <div class="price"><span>$</span>${productDetails.price}</div>
+                            <div class="count">
+                                <button class="decrease">-</button>
+                                <span class="quantity">${productDetails.quantity}</span>
+                                <button class="increase">+</button>
+                            </div>
+                            <div class="amount">${productDetails.total}</div>
+                            <div class="operate">
+                                <button class="delete"><b>刪除</b></button>
+                            </div>
                         </div>
-                        <p>還沒有帳戶?&emsp;&emsp;<span onclick="openSignUpAndCloseLogin()">點我註冊！</span></p>
-                    </form>
-                </div>
-            </div>
-            
-            <script>
-                function openLoginForm() {
-                    document.getElementById("myLoginOverlay").style.display = "block";
+                    `;
+                    cartContainer.innerHTML += itemElement;
                 }
-            
-                function closeLoginForm() {
-                    document.getElementById("myLoginOverlay").style.display = "none";
-                }
-                // 打開 "SignUp" 的 Overlay 並關閉 "Login" 的 Overlay
-                function openSignUpAndCloseLogin() {
-                document.getElementById('mySignUpOverlay').style.display = 'block';
-                document.getElementById('myLoginOverlay').style.display = 'none';
+            });
+            addEventListeners();
+            updateTotalPrice();
+        }
+
+        function addEventListeners() {
+            const decreaseButtons = document.querySelectorAll('.decrease');
+            const increaseButtons = document.querySelectorAll('.increase');
+            const deleteButtons = document.querySelectorAll('.delete');
+
+            decreaseButtons.forEach(button => {
+                button.addEventListener('click', decreaseQuantity);
+            });
+
+            increaseButtons.forEach(button => {
+                button.addEventListener('click', increaseQuantity);
+            });
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', deleteItem);
+            });
+        }
+
+        function decreaseQuantity(event) {
+            const item = event.target.parentElement.parentElement;
+            const index = parseInt(item.dataset.index);
+            const quantityElement = item.querySelector('.quantity');
+            let quantity = parseInt(quantityElement.textContent);
+            if (quantity > 1) {
+                quantity--;
+                quantityElement.textContent = quantity;
+                updateTotal(item);
+                updateProductDetails(index, quantity); // 更新商品詳細資訊
             }
-            </script>
-            
-            <!-- Login to SignUp -->
-            <div id="mySignUpOverlay" class="SignUpOverlay">
-                <div class="wrapLogin">
-                    <span class="closebtnLogin" onclick="closeSignUpForm()" title="Close SignUpOverlay"> &#215 </span>
-                    <h2>註冊</h2>
-                    <form>
-                        <label for="username" class="username"><b>使用者名稱</b></label>
-                        <input class="bgc" id="username" type="text" placeholder="使用者名稱" required>
-                        <label for="email" class="Email"><b>Email</b></label>
-                        <input class="bgc" id="email" type="email" placeholder="Email" required>
-                        <label for="password" class="password"><b>密碼</b></label>
-                        <input class="bgc" id="password" type="password" placeholder="密碼" required>
-                        <input type="submit" value="點我註冊">
-                    </form>
-                </div>
-            </div>
-            <script>
-                function closeSignUpForm() {
-                    document.getElementById("mySignUpOverlay").style.display = "none";
+        }
+
+        function increaseQuantity(event) {
+            const item = event.target.parentElement.parentElement;
+            const index = parseInt(item.dataset.index);
+            const quantityElement = item.querySelector('.quantity');
+            let quantity = parseInt(quantityElement.textContent);
+
+            const originalProductDetailsArray = {{ session_originalProductDetailsArray|tojson|safe }};
+            console.log('originalProductDetailsArray', originalProductDetailsArray);
+
+            const originalProductDetails = originalProductDetailsArray[index];
+            console.log('originalProductDetails', originalProductDetails);
+
+            const originalQuantity = originalProductDetails.quantity;
+            console.log('originalQuantity', originalQuantity);
+
+            const original_product_id = originalProductDetails.id;
+            console.log('originalProduct_id', original_product_id);
+
+            // 從後端獲取庫存量
+            const url = '/product_stock/quantity/' + original_product_id + '/' + original_product_id;
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }})
+                .then(response => response.json())
+                .then(data => {
+                    if (quantity < data.quantity + originalQuantity) {
+                        quantity++;
+                        quantityElement.textContent = quantity;
+                        updateTotal(item);
+                        updateProductDetails(index, quantity); // 更新商品詳細資訊
+                    } else {
+                        alert('數量不得大於庫存量');  // 如果數量大於庫存量，則顯示警告
+                    }
+                });
+        }
+
+        function updateProductDetails(index, quantity) {
+            const productDetailsArray = {{ session_productDetailsArray|tojson|safe }};
+            const productDetails = productDetailsArray[index];
+            productDetails.quantity = quantity;
+            productDetails.total = quantity * productDetails.price;
+            productDetailsArray[index] = productDetails;
+
+            fetch('{{url_for("default.updateSession")}}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({productDetailsArray: productDetailsArray})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        console.log('Session 更新成功:', data.message);
+                        openSuccessAndCloseAddCart();
+                    } else {
+                        console.error('Session 更新失敗:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function deleteItem(event) {
+            const item = event.target.closest('.item_body');
+            const index = parseInt(item.dataset.index);
+            item.remove();
+            updateTotalPrice();
+
+            const originalProductDetailsArray = {{ session_originalProductDetailsArray|tojson|safe }};
+            console.log('originalProductDetailsArray', originalProductDetailsArray);
+
+            const originalProductDetails = originalProductDetailsArray[index];
+            console.log('originalProductDetails', originalProductDetails);
+
+            // 檢查 originalProductDetails 是否為 undefined
+            if (!originalProductDetails) {
+                console.error('無法找到商品詳細資訊');
+                return;
+            }
+
+            const originalQuantity = originalProductDetails.quantity;
+            console.log('originalQuantity', originalQuantity);
+
+            const original_product_id = originalProductDetails.id;
+            console.log('originalProduct_id', original_product_id);
+
+            const productDetailsArray = {{ session_productDetailsArray|tojson|safe }};
+            originalProductDetailsArray.splice(index, 1);
+            productDetailsArray.splice(index, 1);
+
+            fetch('{{url_for("default.updateSession")}}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({originalProductDetailsArray: originalProductDetailsArray})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        console.log('Session 更新成功:', data.message);
+                        openSuccessAndCloseAddCart();
+                    } else {
+                        console.error('Session 更新失敗:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+
+            fetch('{{url_for("default.updateSession")}}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({productDetailsArray: productDetailsArray})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        console.log('Session 更新成功:', data.message);
+                        openSuccessAndCloseAddCart();
+                    } else {
+                        console.error('Session 更新失敗:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+
+            // 從後端獲取庫存量
+            const url2 = '/product_stock/increment_stock/' + original_product_id + '/' + original_product_id;
+
+            // 更新庫存
+            fetch(url2, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({amount: originalQuantity})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    console.log('庫存更新成功:', data.message);
+                } else {
+                    console.error('庫存更新失敗:', data.error);
                 }
-            </script>
-        </div>
-    </div><!-- end navbar-->
-    <div id="app">
-        <div class="container">
-            <div class="item_header">
-                <div class="item_detail"><b>商品</b></div>
-                <div class="price"><b>單價</b></div>
-                <div class="count"><b>數量</b></div> 
-                <div class="amount"><b>總計</b></div>
-                <div class="operate"><b>操作</b></div>
-            </div>
-            <div class="item_header item_body">
-                <div class="item_detail">
-                    <img src="/static/images/2023ChampionRoastedGoose.jpg" alt="">
-                    <div class="name"><b>金牌港式燒鵝(一隻)</b></div>
-                </div>
-    
-                <div class="price"><span>$</span>1500</div>
-                <div class="count">
-                    <button>-</button>
-                    1
-                    <button>+</button>
-                </div> 
-                <div class="amount">1500</div>
-                <div class="operate">
-                    <button><b>刪除</b></button>
-                </div>
-            </div>
-            <div class="item_header item_body">
-                <div class="item_detail">
-                    <img src="/static/images/2023ChampionRoastedGoose.jpg" alt="">
-                    <div class="name"><b>金牌港式燒鵝(半隻)</b></div>
-                </div>
-    
-                <div class="price"><span>$</span>800</div>
-                <div class="count">
-                    <button>-</button>
-                    1
-                    <button>+</button>
-                </div> 
-                <div class="amount">800</div>
-                <div class="operate">
-                    <button><b>刪除</b></button>
-                </div>
-            </div>
-            <div class="item_header item_body">
-                <div class="item_detail">
-                    <img src="/static/images/BarbecuePork.jpg" alt="">
-                    <div class="name"><b>軟嫩蜜汁叉燒</b></div>
-                </div>
-    
-                <div class="price"><span>$</span>380</div>
-                <div class="count">
-                    <button>-</button>
-                    1
-                    <button>+</button>
-                </div> 
-                <div class="amount">380</div>
-                <div class="operate">
-                    <button><b>刪除</b></button>
-                </div>
-            </div>
-            <div class="item_header item_body">
-                <div class="item_detail">
-                    <img src="/static/images/GooseWing.jpg" alt="">
-                    <div class="name"><b>陳年香滷鵝翅</b></div>
-                </div>
-    
-                <div class="price"><span>$</span>110</div>
-                <div class="count">
-                    <button>-</button>
-                    1
-                    <button>+</button>
-                </div> 
-                <div class="amount">110</div>
-                <div class="operate">
-                    <button><b>刪除</b></button>
-                </div>
-            </div>
-            <div class="item_header item_body">
-                <div class="item_detail">
-                    <!-- <img src="GooseWing.jpg" alt=""> -->
-                    <div class="name"><b>總共</b></div>
-                </div>
-    
-                <div class="price"></div>
-                <div class="count"></div> 
-                <div class="amount">2790</div>
-                <div class="checkbtn">
-                    <a href="{{ url_for('default.index') }}"><b>結帳</b></a>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-<script></script>
+            })
+            .catch(error => console.error('Error:', error));
+
+            // 更新所有元素的 dataset.index
+            const items = document.querySelectorAll('.item_body');
+            items.forEach((item, index) => {
+                item.dataset.index = index;
+            });
+        }
+            function updateTotal(item) {
+                const quantity = parseInt(item.querySelector('.quantity').textContent);
+                const price = parseFloat(item.querySelector('.price').textContent.slice(1));
+                const total = quantity * price;
+                item.querySelector('.amount').textContent = total;
+                updateTotalPrice();
+            }
+
+            function updateTotalPrice() {
+                const items = document.querySelectorAll('.item_body:not(.total)');
+                let totalPrice = 0;
+                items.forEach(item => {
+                    const total = parseFloat(item.querySelector('.amount').textContent);
+                    totalPrice += total;
+                });
+                const totalElement = document.querySelector('.total .amount');
+                totalElement.textContent = totalPrice;
+            }
+
+            async function handleCheckout() {
+            const productDetailsArray = {{ session_productDetailsArray|tojson|safe }};
+            if (!productDetailsArray || productDetailsArray.length === 0) {
+                alert('購物車是空的！');
+                return;
+            }
+            console.log('productDetailsArray', productDetailsArray);
+
+            // 計算總價格
+            let total_price = productDetailsArray.reduce((total, product) => total + product.price * product.quantity, 0);
+
+            try {
+                // 創建訂單
+                let userId = {{ session_userId|tojson|safe }};
+                let response = await fetch('{{ url_for("order.create_order") }} ', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        total_price: total_price,
+                        order_time: new Date().toISOString()
+                    })
+                });
+                let orderData = await response.json();
+                console.log('orderData', orderData);
+
+                // 為每個產品創建訂單項目
+                for (let productDetails of productDetailsArray) {
+                    response = await fetch('{{ url_for("product_order.create_product_order") }}', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            product_id: productDetails.id,
+                            order_id: orderData.order,
+                            quantity: productDetails.quantity
+                        })
+                    });
+                    let productOrderData = await response.json();
+                    console.log('productOrderData', productOrderData);
+                }
+
+                alert('訂單已成功創建！');
+
+                fetch('{{url_for("default.removeSession")}}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({productDetailsArray: productDetailsArray})
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message) {
+                            console.log('Session 刪除成功:', data.message);
+                            openSuccessAndCloseAddCart();
+                        } else {
+                            console.error('Session 刪除失敗:', data.error);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+
+                window.location.href = '{{ url_for("default.index")}}'; // 重定向到主頁
+            } catch (error) {
+                console.error('Checkout failed:', error);
+                alert('結帳過程中發生錯誤。');
+            }
+        }
+    </script>
 </html>
 
 <style>
-/* navbar */
-body {
-    margin: 0;
-    padding: 0;
-    border: 0;
-}
-    
-.navbar {
-    width: 100vw;
-    height: 8vh;
-    overflow: hidden;
-    background-color: #FAF0D8;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;  /* 修改的行 */
-}
+    /* navbar */
+    body {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
 
+    .navbar {
+        width: 100vw;
+        height: 8vh;
+        overflow: hidden;
+        background-color: #faf0d8;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; /* 修改的行 */
+    }
 
-.navbar .logo-container {
-    display: flex;
-    align-items: center;
-    margin-right: 4px;
-}
+    .navbar .logo-container {
+        display: flex;
+        align-items: center;
+        margin-right: 4px;
+    }
 
-.navbar .logo-container a span {
-    margin-left: -10px;  /* 新增的行 */
-}
+    .navbar .logo-container a span {
+        margin-left: -10px; /* 新增的行 */
+    }
 
-.stroked-text {
-    color: white;
-    text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000,
-    2px 2px 5px rgba(0, 0, 0, 0.5);  /* drop shadow */
-    letter-spacing: 2px;
-}
+    .stroked-text {
+        color: white;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+            1px 1px 0 #000, 2px 2px 5px rgba(0, 0, 0, 0.5); /* drop shadow */
+        letter-spacing: 2px;
+    }
 
-.navbar .logo-container img {
-    transform: scale(0.35);
-    margin-right: 10px;
-    white-space: nowrap;
-}
+    .navbar .logo-container img {
+        transform: scale(0.35);
+        margin-right: 10px;
+        white-space: nowrap;
+    }
 
-.navbar .logo-container span {
-    margin-right: 10px;  /* 新增的行 */
-    font-size: 2vw;
-    color: #EB6D20;
-    font-weight: bold;
-    white-space: nowrap;
-}
+    .navbar .logo-container span {
+        margin-right: 10px; /* 新增的行 */
+        font-size: 2vw;
+        color: #eb6d20;
+        font-weight: bold;
+        white-space: nowrap;
+    }
 
-.navbar .menu {
-    display: flex;
-    align-items: center;
-    top: 0;
-    flex-grow: 1;
-}
+    .navbar .menu {
+        display: flex;
+        align-items: center;
+        top: 0;
+        flex-grow: 1;
+    }
 
-.navbar .menu a {
-    margin: 0 10px;  /* 設定左右邊距為10px */
-    font-size: 1.25vw;
-    font-weight: bold;
-    white-space: nowrap;
-}
+    .navbar .menu a {
+        margin: 0 10px; /* 設定左右邊距為10px */
+        font-size: 1.25vw;
+        font-weight: bold;
+        white-space: nowrap;
+    }
 
-.navbar .menu .dropdown {
-    margin: 0 10px;
-    font-size: 1.25vw;
-    white-space: nowrap;
-}
+    .navbar .menu .dropdown {
+        margin: 0 10px;
+        font-size: 1.25vw;
+        white-space: nowrap;
+    }
 
-.navbar .menu .dropdown .dropbtn {
-    font-size: 1.25vw;
-    font-weight: bold;
-    white-space: nowrap;
-}
+    .navbar .menu .dropdown .dropbtn {
+        font-size: 1.25vw;
+        font-weight: bold;
+        white-space: nowrap;
+    }
 
-.navbar a {
-    float: left;
-    font-size: 16px;
-    color: #3e3e3e;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
+    .navbar a {
+        float: left;
+        font-size: 16px;
+        color: #3e3e3e;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
 
-.navbar a:hover {
-    background-color: #3e3e3e;
-    color: black;
-}
+    .navbar a:hover {
+        background-color: #3e3e3e;
+        color: black;
+    }
 
-.dropdown {
-    float: left;
-    overflow: hidden;
-}
+    .dropdown {
+        float: left;
+        overflow: hidden;
+    }
 
-.dropdown .dropbtn {
-    font-size: 16px;
-    border: none;
-    outline: none;
-    color: #3e3e3e;
-    padding: 14px 16px;
-    background-color: inherit;
-    font-family: inherit;
-    margin: 0;
-}
+    .dropdown .dropbtn {
+        font-size: 16px;
+        border: none;
+        outline: none;
+        color: #3e3e3e;
+        padding: 14px 16px;
+        background-color: inherit;
+        font-family: inherit;
+        margin: 0;
+    }
 
-.navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: #ddd;
-    color: black;
-}
+    .navbar a:hover,
+    .dropdown:hover .dropbtn {
+        background-color: #ddd;
+        color: black;
+    }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
 
-.dropdown-content a {
-    float: none;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-}
+    .dropdown-content a {
+        float: none;
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+    }
 
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
+    .dropdown-content a:hover {
+        background-color: #ddd;
+    }
 
-.dropdown:hover .dropdown-content {
-    display: block;
-}
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
 
-.cart-link {
-    display: flex;  /* 新增的行 */
-    align-items: center;  /* 新增的行 */
-}
+    .cart-link {
+        display: flex; /* 新增的行 */
+        align-items: center; /* 新增的行 */
+    }
 
-.cartLogo {
-    transform: scale(0.8);
-}
+    .cartLogo {
+        transform: scale(0.8);
+    }
 
-.login-button button {
-    background-color: #EB6D20;  /* 設定背景色為橘色 */
-    border-radius: 40px;  /* 設定邊框半徑為50px，創建長橢圓形效果 */
-    box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.5);
-    color: white;  /* 設定文字顏色為白色 */
-    padding: 10px 20px;  /* 設定內邊距，使按鈕變大 */
-    text-decoration: none;  /* 移除文字裝飾 */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* 設定文字陰影 */
-} 
+    .login-button a {
+        background-color: #eb6d20; /* 設定背景色為橘色 */
+        border-radius: 40px; /* 設定邊框半徑為50px，創建長橢圓形效果 */
+        box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.5);
+        color: white; /* 設定文字顏色為白色 */
+        padding: 10px 20px; /* 設定內邊距，使按鈕變大 */
+        text-decoration: none; /* 移除文字裝飾 */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 設定文字陰影 */
+    }
 
-.login-button button:hover {
-    background-color: #846E82;
-    color: #fff;
-}
+    .login-button a:hover {
+        background-color: #846e82;
+        color: #fff;
+    }
+    /* end navbar */
 
-.login-button button span {
-    font-weight: bold;
-    font-size: 1em;
-}
-/* end navbar */
+    /* login */
+    .wrapLogin {
+        width: 50%; /* 修改的行 */
+        height: 50%; /* 修改的行 */
+        position: absolute; /* 修改的行 */
+        top: 40%; /* 修改的行 */
+        left: 50%; /* 修改的行 */
+        transform: translate(-50%, -50%); /* 修改的行 */
+        min-width: 350px;
+        margin: auto;
+        padding: 20px;
+        background: #e0d6c3;
+        margin-top: 100px;
+        border-radius: 20px;
+    }
 
-/* login */
-.wrapLogin {
-    width: 50%;  /* 修改的行 */
-    height: 60%;  /* 修改的行 */
-    position: absolute;  /* 修改的行 */
-    top: 40%;  /* 修改的行 */
-    left: 50%;  /* 修改的行 */
-    transform: translate(-50%, -50%);  /* 修改的行 */
-    min-width: 350px;
-    margin: auto;
-    padding: 20px;
-    background: #E0D6C3;
-    margin-top: 100px;
-    border-radius: 20px;
-}
+    .wrapLogin form {
+        margin-top: 50px;
+    }
 
-.wrapLogin form {
-    margin-top: 50px;
-}
+    .wrapLogin input {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        border: none;
+        outline: none;
+        border: 1px solid gray;
+        font-style: 15px;
+        border-radius: 5px;
+    }
 
-.wrapLogin input {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    border: none;
-    outline: none;
-    border: 1px solid gray;
-    font-style: 15px;
-    border-radius: 5px;
-}
+    .bgc {
+        background-color: #808080;
+        opacity: 0.5; /* 根據你的需求調整 */
+    }
 
-.bgc {
-    background-color: #808080;
-    opacity: 0.5;  /* 根據你的需求調整 */
-}
+    .wrapLogin input::placeholder {
+        color: #000000; /* 根據你的需求調整 */
+    }
 
-.wrapLogin input::placeholder {
-    color: #000000;  /* 根據你的需求調整 */
-}
+    .wrapLogin h2 {
+        margin: 0;
+        padding: 0;
+        font-size: 2em;
+        text-align: center;
+    }
 
+    .wrapLogin input[type="submit"] {
+        font-size: 16px;
+        margin-top: 30px;
+        color: #fff;
+        font-weight: bold;
+        background: #846e82;
+        border: 1px solid #fff;
+        cursor: pointer;
+    }
 
-.wrapLogin h2 {
-    margin: 0;
-    padding: 0;
-    font-size: 2em;
-    text-align: center;
-}
+    .wrapLogin input[type="submit"]:hover {
+        background: #eb6d20;
+        color: #fff;
+    }
 
-.wrapLogin input[type="submit"] {
-    font-size: 16px;
-    margin-top: 30px;
-    color: #fff;
-    font-weight: bold;
-    background: #846E82;
-    border: 1px solid #fff;
-    cursor: pointer;
-}
+    .googleLogin {
+        margin-top: 1vh;
+        width: 100%; /* 根據你的需求調整 */
+        height: 100%; /* 根據你的需求調整 */
+        border: 1px solid gray;
+    }
 
-.wrapLogin input[type="submit"]:hover {
-    background: #EB6D20;
-    color: #fff;
-}
+    .google-button {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* 新增的行 */
+        width: 100%;
+        background-color: #000;
+    }
 
-.googleLogin {
-    margin-top: 1vh;
-    width: 100%;  /* 根據你的需求調整 */
-    height: 100%;  /* 根據你的需求調整 */
-    border: 1px solid gray;
-}
+    .google-button img {
+        margin-right: 0.5em; /* 根據你的需求調整 */
+        width: 2em; /* 新增的行 */
+        height: 5vh; /* 新增的行 */
+        vertical-align: middle; /* 新增的行 */
+    }
 
-.google-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;  /* 新增的行 */
-    width: 100%;
-    background-color: #000;
-}
+    .google-button span {
+        color: #fff;
+        font-size: 1em; /* 新增的行 */
+        font-weight: bold; /* 新增的行 */
+        margin-left: 5px;
+    }
 
-.google-button img {
-    margin-right: 0.5em;  /* 根據你的需求調整 */
-    width: 2em;  /* 新增的行 */
-    height: 5vh;  /* 新增的行 */
-    vertical-align: middle;  /* 新增的行 */
-}
+    .googleLogin :hover {
+        background-color: #eb6d20;
+    }
 
-.google-button span {
-    color: #fff;
-    font-size: 1em;  /* 新增的行 */
-    font-weight: bold;  /* 新增的行 */
-    margin-left: 5px;
-}
+    .wrapLogin input[type="clickMeRegister"] {
+        font-size: 16px;
+        margin-top: 30px;
+        color: #fff;
+        font-weight: bold;
+        background: #000;
+        cursor: pointer;
+        text-align: center;
+    }
 
-.googleLogin :hover {
-    background-color: #EB6D20;
-}
+    .wrapLogin p {
+        font-size: 1em;
+        color: #000;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 5vh;
+    }
 
-.wrapLogin input[type="clickMeRegister"] {
-    font-size: 16px;
-    margin-top: 30px;
-    color: #fff;
-    font-weight: bold;
-    background: #000;
-    cursor: pointer;
-    text-align: center;
-}
+    .wrapLogin p span {
+        color: #eb6d20;
+        cursor: pointer;
+    }
 
-.wrapLogin p {
-    font-size: 1em;
-    color: #000;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 5vh;
-}
+    .openbtnLogin {
+        background: #f1f1f1;
+        border: none;
+        padding: 10px 15px;
+        font-size: 20px;
+        cursor: pointer;
+        float: right;
+    }
 
-.wrapLogin p span {
-    color: #EB6D20;
-    cursor: pointer;
+    .openbtnLogin:hover {
+        background: #eb6d20;
+    }
 
-}
+    .loginOverlay {
+        height: 100%;
+        width: 100%;
+        display: none;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
 
-.openbtnLogin {
-    background: #f1f1f1;
-    border: none;
-    padding: 10px 15px;
-    font-size: 20px;
-    cursor: pointer;
-    float: right;
-}
+    .SignUpOverlay {
+        height: 100%;
+        width: 100%;
+        display: none;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
 
-.openbtnLogin:hover {
-    background: #EB6D20;
-}
+    .closebtnLogin {
+        position: absolute;
+        top: 20px;
+        right: 45px;
+        font-size: 60px;
+        cursor: pointer;
+        color: #fff;
+    }
 
-.loginOverlay {
-    height: 100%;
-    width: 100%;
-    display: none;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-}
+    .closebtnLogin:hover {
+        color: #eb6d20;
+    }
 
-.SignUpOverlay {
-    height: 100%;
-    width: 100%;
-    display: none;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-}
+    #line {
+        background: url("/static/images/Line 2.png");
+        background-size: auto 100%;
+        height: 5px;
+        width: 100%;
+        margin-top: 5px;
+        border-top: 1px solid #fdfaf3; /* 根據你的需求調整 */
+    }
+    /* end login */
 
-.closebtnLogin {
-    position: absolute;
-    top: 20px;
-    right: 45px;
-    font-size: 60px;
-    cursor: pointer;
-    color: #fff;
-}
+    #Cart-link {
+        color: #eb6d20;
+    }
 
-.closebtnLogin:hover {
-    color: #EB6D20;
-}
+    body {
+        background-color: rgba(250, 240, 216, 0.5);
+    }
 
+    .container {
+        display: flex; /* 新增的行 */
+        flex-direction: column; /* 新增的行 */
+    }
 
-#line {
-    background: url('/static/images/Line 2.png');
-    background-size: auto 100%;
-    height: 5px;
-    width: 100%;
-    margin-top: 5px;
-    border-top: 1px solid #FDFAF3;  /* 根據你的需求調整 */
-}
-/* end login */
+    .item_header {
+        display: flex;
+        width: 1200px;
+        margin: 0 auto;
+        height: 30px;
+        background-color: #fff;
+        border-radius: 3px;
+        padding-left: 10px;
+        margin-top: 2vh;
+        font-size: 1.5em;
+    }
+    .item_header div {
+        width: 250px;
+        color: #888;
+        line-height: 30px;
+    }
+    .item_header .item_detail {
+        width: 50%;
+    }
+    .item_body {
+        margin-top: 20px;
+        height: 100px;
+        align-items: center;
+    }
+    .item_detail img {
+        width: 80px;
+        height: 80px;
+        border-radius: 3px;
+        /* margin-top: 10px; */
+        float: left;
+    }
+    .item_detail .name {
+        margin-left: 100px;
+        margin-top: 20px;
+    }
 
-#Cart-link {
-    color: #EB6D20;
-}
+    .checkbtn a {
+        background-color: #eb6d20; /* 設定背景色為橘色 */
+        border-radius: 40px; /* 設定邊框半徑為50px，創建長橢圓形效果 */
+        box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.5);
+        color: #fff; /* 設定文字顏色為白色 */
+        padding: 10px 20px; /* 設定內邊距，使按鈕變大 */
+        text-decoration: none; /* 移除文字裝飾 */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 設定文字陰影 */
+    }
 
-body{
-    background-color: rgba(250, 240, 216, 0.5);
-}
-
-.container {
-    display: flex;  /* 新增的行 */
-    flex-direction: column;  /* 新增的行 */
-}
-
-.item_header{
-    display: flex;
-    width: 1200px;
-    margin: 0 auto;
-    height: 30px;
-    background-color: #fff;
-    border-radius: 3px;
-    padding-left: 10px;
-    margin-top: 2vh;
-    font-size: 1.5em;
-}
-.item_header div{
-    width: 250px;
-    color: #888;
-    line-height: 30px;
-}
-.item_header .item_detail{
-    width: 50%;
-}
-.item_body{
-    margin-top: 20px;
-    height: 100px;
-    align-items: center;    
-}
-.item_detail img{
-    width: 80px;
-    height: 80px;
-    border-radius: 3px;
-    /* margin-top: 10px; */
-    float: left;
-}
-.item_detail .name{
-    margin-left: 100px;
-    margin-top: 20px;
-} 
-
-.checkbtn a{
-    background-color: #EB6D20;  /* 設定背景色為橘色 */
-    border-radius: 40px;  /* 設定邊框半徑為50px，創建長橢圓形效果 */
-    box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.5);
-    color: #fff;  /* 設定文字顏色為白色 */
-    padding: 10px 20px;  /* 設定內邊距，使按鈕變大 */
-    text-decoration: none;  /* 移除文字裝飾 */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* 設定文字陰影 */
-}
- 
-.checkbtn a:hover {
-    background-color: #846E82;
-}
-
+    .checkbtn a:hover {
+        background-color: #846e82;
+    }
 </style>

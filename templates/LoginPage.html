@@ -6,75 +6,61 @@
     <title>LoginPage</title>
 </head>
 <body>
-
-<div id="myLoginOverlay" class="loginOverlay">
-    <div class="wrapLogin">
-        <span class="closebtnLogin" onclick="closeLoginForm()" title="Close loginOverlay"> &#215 </span>
-        <h2>登入</h2>
-        <form>
-            <label for="" class="Email"><b>Email</b></label>
-            <input id="bgc" type="email" placeholder="Email"  required>
-            <label for="" class="password"><b>密碼</b></label>
-            <input id="bgc" type="password" placeholder="密碼" id="password" required>
-            <input type="submit" value="點我登入">
-            <div id="line"></div>
-            <div class="googleLogin">
-                <button class="google-button">
-                    <img src="/static/images/Group 3019.svg" alt="Google Icon">
-                    <span>登入Google以繼續</span>
-                </button>
-            </div>
-            <p>還沒有帳戶?    <span onclick="openSignUpAndCloseLogin()">點我註冊！</span></p>
-        </form>
-    </div>
-</div>
-<button class="openbtnLogin" onclick="openLoginForm()">登入</button>
-
-<script>
-    function openLoginForm() {
-        document.getElementById("myLoginOverlay").style.display = "block";
-    }
-
-    function closeLoginForm() {
-        document.getElementById("myLoginOverlay").style.display = "none";
-    }
-    // 打開 "SignUp" 的 Overlay 並關閉 "Login" 的 Overlay
-    function openSignUpAndCloseLogin() {
-    document.getElementById('mySignUpOverlay').style.display = 'block';
-    document.getElementById('myLoginOverlay').style.display = 'none';
-}
-</script>
-
-<!-- Login to SignUp -->
-<div id="mySignUpOverlay" class="SignUpOverlay">
-    <div class="wrapLogin">
-        <span class="closebtnLogin" onclick="closeSignUpForm()" title="Close SignUpOverlay"> &#215 </span>
-        <h2>註冊</h2>
-        <form>
-            <label for="" class="username"><b>使用者名稱</b></label>
-            <input id="bgc" type="text" placeholder="使用者名稱" required>
-            <label for="" class="Email"><b>Email</b></label>
-            <input id="bgc" type="email" placeholder="Email" required>
-            <label for="" class="password"><b>密碼</b></label>
-            <input id="bgc" type="password" placeholder="密碼" required>
-            <input type="submit" value="點我註冊">
-        </form>
+<div class="background">
+    <div id="myLoginOverlay" class="loginOverlay">
+        <div class="wrapLogin">
+            <a href="{{url_for('default.index')}}"><span class="closebtnLogin" title="Close loginOverlay"> &#215 </span></a>
+            <h2>登入</h2>
+            <form>
+                <label for="email" class="Email"><b>Email</b></label>
+                <input class="bgc" id="email" type="email" placeholder="Email" name="email"  required>
+                <label for="password" class="password"><b>密碼</b></label>
+                <input class="bgc" id="password" type="password" placeholder="密碼" id="password" name="password" required>
+                <button type="submit">登入</button>
+                <p>還沒有帳戶?&emsp;<a href="{{url_for('default.signUp')}}"><span>點我註冊！</span></a></p>
+            </form>
+        </div>
     </div>
 </div>
 <script>
-    function closeSignUpForm() {
-        document.getElementById("mySignUpOverlay").style.display = "none";
-    }
+    document.querySelector("form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        fetch('{{ url_for("user.login") }}', {
+            method: "POST",
+            body: new FormData(this),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.error) {
+                alert(data.error);
+            } else if (data.success) {
+                localStorage.setItem('userId', data.id);
+                window.location.href = '{{url_for("default.index")}}';
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
 </script>
 </body>
 </html>
 
 <style>
 
+/* background */
+.background {
+    background-color: rgba(250, 240, 216, 0.5);
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
 /* login */
 .wrapLogin {
     width: 50%;  /* 修改的行 */
-    height: 60%;  /* 修改的行 */
+    height: 50%;  /* 修改的行 */
     position: absolute;  /* 修改的行 */
     top: 40%;  /* 修改的行 */
     left: 50%;  /* 修改的行 */
@@ -91,7 +77,13 @@
     margin-top: 50px;
 }
 
-.wrapLogin input {
+.wrapLogin a {
+    text-decoration: none;
+    color: #EB6D20;
+
+}
+
+.wrapLogin input, button {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
@@ -103,7 +95,7 @@
     border-radius: 5px;
 }
 
-#bgc {
+.bgc {
     background-color: #808080;
     opacity: 0.5;  /* 根據你的需求調整 */
 }
@@ -120,7 +112,7 @@
     text-align: center;
 }
 
-.wrapLogin input[type="submit"] {
+.wrapLogin button[type="submit"] {
     font-size: 16px;
     margin-top: 30px;
     color: #fff;
@@ -130,42 +122,9 @@
     cursor: pointer;
 }
 
-.wrapLogin input[type="submit"]:hover {
+.wrapLogin button[type="submit"]:hover {
     background: #EB6D20;
     color: #fff;
-}
-
-.googleLogin {
-    margin-top: 1vh;
-    width: 100%;  /* 根據你的需求調整 */
-    height: 100%;  /* 根據你的需求調整 */
-    border: 1px solid gray;
-}
-
-.google-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;  /* 新增的行 */
-    width: 100%;
-    background-color: #000;
-}
-
-.google-button img {
-    margin-right: 0.5em;  /* 根據你的需求調整 */
-    width: 2em;  /* 新增的行 */
-    height: 5vh;  /* 新增的行 */
-    vertical-align: middle;  /* 新增的行 */
-}
-
-.google-button span {
-    color: #fff;
-    font-size: 1em;  /* 新增的行 */
-    font-weight: bold;  /* 新增的行 */
-    margin-left: 5px;
-}
-
-.googleLogin :hover {
-    background-color: #EB6D20;
 }
 
 .wrapLogin input[type="clickMeRegister"] {
@@ -208,7 +167,6 @@
 .loginOverlay {
     height: 100%;
     width: 100%;
-    /* display: none; */
     position: fixed;
     z-index: 1;
     top: 0;
