@@ -6,6 +6,7 @@
     <title>BarbecuePorkPage</title>
 </head>
 <body>
+    {% if logged_in %}
     <div class="navbar">
         <div class="logo-container">
             <img src="/static/images/Logo.png" class="logo">
@@ -421,6 +422,11 @@
             </div>            
         </div>
     </div>
+    {% else %}
+    <script>
+        window.location.href = "{{ url_for('default.login') }}";
+    </script>
+    {% endif %}
 </body>
 </html>
 
