@@ -16,16 +16,16 @@
             <a href="{{ url_for('default.menu') }}">菜單</a>
             <a href="{{ url_for('default.about') }}">關於我們</a>
             <a href="{{ url_for('default.roastedGoose') }}">港式燒鵝</a>
-            <a href="{{ url_for('default.barbecuePork') }}" id="BarbecuePork-link">蜜汁叉燒</a>
+            <a href="{{ url_for('default.barbecuePork') }}" >蜜汁叉燒</a>
             <div class="dropdown">
-                <button class="dropbtn">香濃滷水
+                <button class="dropbtn" id="link">香濃滷水
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
                     <a href="{{ url_for('default.gooseWing') }}">鵝翅</a>
                     <a href="{{ url_for('default.goostFeet') }}">鵝腳</a>
                     <a href="{{ url_for('default.foieGras') }}">鵝肝</a>
-                    <a href="{{ url_for('default.GooseGizzards') }}">鵝胗</a>
+                    <a href="{{ url_for('default.GooseGizzards') }}" id="link">鵝胗</a>
                 </div>
             </div>
             <div class="dropdown">
@@ -48,42 +48,42 @@
     </div>
     <!-- end navbar-->
 
-    <!-- BuyBarbecuePork -->
-    <div id="MyBarbecueBuyOverlay" class="blackBgc">
+    <!-- BuyGooseWingPage -->
+    <div id="MyGooseGizzardsBuyOverlay" class="blackbgc">
         <div class="wrapBuy">
-            <span class="closebtnBuy" onclick="closeRoastedGooseBuyForm()" title="Close BarbecuePork"> &#215 </span>
-            <h2>軟嫩蜜汁叉燒</h2>
+            <span class="closebtnBuy" onclick="closeRoastedGooseBuyForm()" title="Close RoastedGooseBuyOverlay"> &#215 </span>
+            <h2>陳年香滷鵝胗</h2>
             <div class="inventory-display">
                 <p>庫存量: <span id="inventoryCount">50</span></p>
             </div>
             <form class="radio-formBuy">
-                <input id="barbecuePorkBuyChoice1" type="radio" name="barbecuePork" value="one">
-                <label for="barbecuePorkBuyChoice1" class="one"><b>一份 $200</b></label>
+                <input id="gooseGizzardsBuyChoice1" type="radio" name="gooseGizzards" value="one">
+                <label for="gooseGizzardsBuyChoice1" class="one"><b>一盒 $100</b></label>
             
-                <input id="barbecuePorkBuyChoice2" type="radio" name="barbecuePork" value="two">
-                <label for="barbecuePorkBuyChoice2" class="two"><b>兩份 $400</b></label>
+                <input id="gooseGizzardsBuyChoice2" type="radio" name="gooseGizzards" value="two">
+                <label for="gooseGizzardsBuyChoice2" class="two"><b>兩盒 $200</b></label>
             
             </form>
             <div class="otherBuy">
                 <label for="otherQuantity" class="password"><b>其他數量</b></label>
-                <input class="bgc" type="other" placeholder="Ex:3" id="otherQuantity" min="3" max="30" pattern="\d+">
+                <input class="bgc" type="other" placeholder="Ex:3" id="otherQuantity">
             </div>
         
             <a href="{{ url_for('default.cart') }}"><input type="submit" value="直接購買"></a>
         </div>
     </div>
     
-<script>
-    function openRoastedGooseBuyForm() {
-        document.getElementById("MyBarbecueBuyOverlay").style.display = "block";
-    }
+    <script>
+        function openRoastedGooseBuyForm() {
+            document.getElementById("MyGooseGizzardsBuyOverlay").style.display = "block";
+        }
+    
+        function closeRoastedGooseBuyForm() {
+            document.getElementById("MyGooseGizzardsBuyOverlay").style.display = "none";
+        }
 
-    function closeRoastedGooseBuyForm() {
-        document.getElementById("MyBarbecueBuyOverlay").style.display = "none";
-    }
-
-    // 假設你的 product_id 和 stock_id 是 1 和 1
-    fetch('{{url_for("product_stock.get_quantity", product_id=2, stock_id=2)}}', {
+        // 假設你的 product_id 和 stock_id 是 1 和 1
+    fetch('{{url_for("product_stock.get_quantity", product_id=6, stock_id=6)}}', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -101,8 +101,8 @@
     .catch(error => console.error('Error:', error));
 
     // 獲取選擇的數量
-    const choice1 = document.getElementById('barbecuePorkBuyChoice1');
-    const choice2 = document.getElementById('barbecuePorkBuyChoice2');
+    const choice1 = document.getElementById('gooseGizzardsBuyChoice1');
+    const choice2 = document.getElementById('gooseGizzardsBuyChoice2');
     const otherQuantity = document.getElementById('otherQuantity');
 
     // 監聽 radio button 和 input 的變化
@@ -155,7 +155,7 @@
     }
 
     // 呼叫get_product_details API
-    fetch('{{url_for("product.get_product_details", product_id=2)}}' , {
+    fetch('{{url_for("product.get_product_details", product_id=6)}}' , {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -183,12 +183,11 @@
             // 如果商品不存在，則添加新的商品到陣列中
             productDetailsArray.push(productDetails);
         }
-
         // 將更新後的商品詳情陣列存回localStorage
         localStorage.setItem('productDetailsArray', JSON.stringify(productDetailsArray));
         
         // 更新庫存
-        fetch('{{url_for("product_stock.decrement_stock", product_id=2, stock_id=2)}}', {
+        fetch('{{url_for("product_stock.decrement_stock", product_id=6, stock_id=6)}}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -210,22 +209,22 @@
             console.log('quantity:', quantity);
         });
     });
-</script>
+    </script>
 
     <!-- AddCart -->
-    <div id="MyBarbecuePorkAddCartOverlay" class="blackBgc">
+    <div id="MyRoastedGooseAddCartOverlay" class="blackbgc">
         <div class="wrapAddCart">
             <span class="closebtnAddCart" onclick="closeRoastedGooseAddCartForm()" title="Close RoastedGooseAddCartOverlay"> &#215 </span>
-            <h2>軟嫩蜜汁叉燒</h2>
+            <h2>陳年香滷鵝胗</h2>
             <div class="inventory-display">
                 <p>庫存量: <span id="inventoryCountCart">50</span></p>
             </div>
             <form class="radio-formAddCart">
-                <input id="barbecuePorkAddCartChoice1" type="radio" name="barbecuePork" value="one">
-                <label for="barbecuePorkAddCartChoice1" class="one"><b>一份 $200</b></label>
+                <input id="gooseGizzardsAddCartChoice1" type="radio" name="gooseGizzards" value="one">
+                <label for="gooseGizzardsAddCartChoice1" class="one"><b>一盒 $100</b></label>
             
-                <input id="barbecuePorkAddCartChoice2" type="radio" name="barbecuePork" value="two">
-                <label for="barbecuePorkAddCartChoice2" class="two"><b>兩份 $400</b></label>
+                <input id="gooseGizzardsAddCartChoice2" type="radio" name="gooseGizzards" value="two">
+                <label for="gooseGizzardsAddCartChoice2" class="two"><b>兩盒 $200</b></label>
             
             </form>
             <div class="otherAddCart">
@@ -239,20 +238,20 @@
     
     <script>
         function openRoastedGooseAddCartForm() {
-            document.getElementById("MyBarbecuePorkAddCartOverlay").style.display = "block";
+            document.getElementById("MyRoastedGooseAddCartOverlay").style.display = "block";
         }
     
         function closeRoastedGooseAddCartForm() {
-            document.getElementById("MyBarbecuePorkAddCartOverlay").style.display = "none";
+            document.getElementById("MyRoastedGooseAddCartOverlay").style.display = "none";
         }
         // 打開 "SignUp" 的 Overlay 並關閉 "Login" 的 Overlay
         function openSuccessAndCloseAddCart() {
-        document.getElementById('MySuccessRoastedGooseAddCartOverlay').style.display = 'block';
-        document.getElementById('MyBarbecuePorkAddCartOverlay').style.display = 'none';
-    }
+            document.getElementById('MySuccessRoastedGooseAddCartOverlay').style.display = 'block';
+            document.getElementById('MyRoastedGooseAddCartOverlay').style.display = 'none';
+        }
 
-    // 假設你的 product_id 和 stock_id 是 2 和 2
-    fetch('{{url_for("product_stock.get_quantity", product_id=2, stock_id=2)}}', {
+        // 假設你的 product_id 和 stock_id 是 6 和 6
+    fetch('{{url_for("product_stock.get_quantity", product_id=6, stock_id=6)}}', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -270,8 +269,8 @@
     .catch(error => console.error('Error:', error));
 
     // 獲取選擇的數量
-    const choice1Cart = document.getElementById('barbecuePorkAddCartChoice1');
-    const choice2Cart = document.getElementById('barbecuePorkAddCartChoice2');
+    const choice1Cart = document.getElementById('gooseGizzardsAddCartChoice1');
+    const choice2Cart = document.getElementById('gooseGizzardsAddCartChoice2');
     const otherQuantityCart = document.getElementById('otherQuantityCart');
 
     // 監聽 radio button 和 input 的變化
@@ -324,7 +323,7 @@
     }
 
     // 呼叫get_product_details API
-    fetch('{{url_for("product.get_product_details", product_id=2)}}' , {
+    fetch('{{url_for("product.get_product_details", product_id=6)}}' , {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -357,7 +356,7 @@
     localStorage.setItem('productDetailsArray', JSON.stringify(productDetailsArray));
     
     // 更新庫存
-    fetch('{{url_for("product_stock.decrement_stock", product_id=2, stock_id=2)}}', {
+    fetch('{{url_for("product_stock.decrement_stock", product_id=6, stock_id=6)}}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -367,9 +366,9 @@
         .then(response => response.json())
         .then(data => {
             if (data.message) {
-                console.log('庫存更新成功:', data.message);
+                console.log('庫存更新成功:', data.message)
                 openSuccessAndCloseAddCart();
-                openRoastedGooseSuccessAddCartForm()
+                openRoastedGooseSuccessAddCartForm();
             } else {
                 console.error('庫存更新失敗:', data.error);
             }
@@ -406,8 +405,8 @@
         </div>
         <div class="right">
             <div class="word">
-                <h1>軟嫩蜜汁叉燒</h1>
-                <h3>&emsp;&emsp;我們選用梅花肉，這部分的肉質最適合，因為它包含油脂和瘦肉，口感非常好！並且，搭配香港的香料，在味道上提升了一個檔次。另外，再刷上獨門蜜汁，完美的叉燒更添了一份甜味！</h3>
+                <h1>陳年香滷鵝胗</h1>
+                <h3>&emsp;&emsp;由多種香料和獨門秘方等炒後滷製，滿滿的香氣與陳年老滷滲入鵝胗的軟嫩肉質裡，而且鵝胗脆脆的口感讓大小朋友都是忠實粉絲，加上滿滿滷汁精華，皮Q、入味、香純、爽口！</h3>
             </div>
             <div id="overlay" style="display: none;"></div>
             <div class="to">
@@ -880,7 +879,7 @@ input::placeholder {
     background: #EB6D20;
 }
 
-.blackBgc {
+.blackbgc {
     height: 100%;
     width: 100%;
     display: none;
@@ -919,9 +918,10 @@ input::placeholder {
     cursor: pointer;
     margin-left: 2vw;
     margin-bottom: 0.75vh;
+    
 }
 
-#barbecuePorkBuyChoice1, #barbecuePorkBuyChoice2 {
+#gooseGizzardsBuyChoice1, #gooseGizzardsBuyChoice2 {
     width: 8%;
 }
 
@@ -1022,6 +1022,7 @@ input::placeholder {
 .wrapAddCart p span {
     color: #EB6D20;
     cursor: pointer;
+
 }
 
 .inventory-display {
@@ -1049,17 +1050,6 @@ input::placeholder {
 
 .openbtnAddCart:hover {
     background: #EB6D20;
-}
-
-.RoastedGooseAddCartOverlay {
-    height: 100%;
-    width: 100%;
-    display: none;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .SignUpOverlay {
@@ -1103,7 +1093,7 @@ input::placeholder {
     margin-bottom: 0.75vh;
 }
 
-#barbecuePorkAddCartChoice1, #barbecuePorkAddCartChoice2 {
+#gooseGizzardsAddCartChoice1, #gooseGizzardsAddCartChoice2 {
     width: 8%;
 }
 
@@ -1174,7 +1164,7 @@ input::placeholder {
 }
 /* end success add cart */
 
-#BarbecuePork-link {
+#link {
     color: #EB6D20;
 }
 
@@ -1191,7 +1181,7 @@ input::placeholder {
 }
 
 .RoastedGooseBackGround .left .roasted-goose {
-    background: url('/static/images/BarbecuePork.jpg') no-repeat;
+    background: url('/static/images/GooseGizzard.jpg') no-repeat;
     background-size: 100% auto;
     height: 80vh;
     width: 50vw;

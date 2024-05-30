@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-tw">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
         </div>
         <div class="menu">
             <!-- 你的菜單、關於我們、港式燒鵝、蜜汁叉燒、香濃滷水、聯絡我們、購物車的連結放在這裡 -->
-            <a href="{{ url_for('default.menu') }}">菜單</a>
+            <a href="{{ url_for('default.menu') }}" id="menu-link">菜單</a>
             <a href="{{ url_for('default.about') }}">關於我們</a>
             <a href="{{ url_for('default.roastedGoose') }}">港式燒鵝</a>
             <a href="{{ url_for('default.barbecuePork') }}">蜜汁叉燒</a>
@@ -24,7 +24,7 @@
                     <a href="{{ url_for('default.gooseWing') }}">鵝翅</a>
                     <a href="{{ url_for('default.goostFeet') }}">鵝腳</a>
                     <a href="{{ url_for('default.foieGras') }}">鵝肝</a>
-                    <a href="{{ url_for('default.GooseGzzards') }}">鵝胗</a>
+                    <a href="{{ url_for('default.GooseGizzards') }}">鵝胗</a>
                 </div>
             </div>
             <div class="dropdown">
@@ -41,68 +41,8 @@
             <a href="{{ url_for('default.cart') }}" class="cart-link"><img src="/static/images/CartLogo.png" class="cartLogo">購物車</a>
 
             <div class="login-button">
-                <button class="openbtn" onclick="openLoginForm()"><span><b>點我登入</b></span></button>
+                <a href="{{ url_for('user.logout') }}" class="click-link">點我登出</a>
             </div>
-
-            <!-- login overlay -->
-            <<div id="myLoginOverlay" class="loginOverlay">
-                <div class="wrapLogin">
-                    <span class="closebtnLogin" onclick="closeLoginForm()" title="Close loginOverlay"> &#215 </span>
-                    <h2>登入</h2>
-                    <form>
-                        <label for="" class="Email"><b>Email</b></label>
-                        <input id="bgc" type="email" placeholder="Email"  required>
-                        <label for="" class="password"><b>密碼</b></label>
-                        <input id="bgc" type="password" placeholder="密碼" id="password" required>
-                        <input type="submit" value="點我登入">
-                        <div id="line"></div>
-                        <div class="googleLogin">
-                            <button class="google-button">
-                                <img src="/static/images/Group 3019.svg" alt="Google Icon">
-                                <span>登入Google以繼續</span>
-                            </button>
-                        </div>
-                        <p>還沒有帳戶?    <span onclick="openSignUpAndCloseLogin()">點我註冊！</span></p>
-                    </form>
-                </div>
-            </div>
-            
-            <script>
-                function openLoginForm() {
-                    document.getElementById("myLoginOverlay").style.display = "block";
-                }
-            
-                function closeLoginForm() {
-                    document.getElementById("myLoginOverlay").style.display = "none";
-                }
-                // 打開 "SignUp" 的 Overlay 並關閉 "Login" 的 Overlay
-                function openSignUpAndCloseLogin() {
-                document.getElementById('mySignUpOverlay').style.display = 'block';
-                document.getElementById('myLoginOverlay').style.display = 'none';
-            }
-            </script>
-            
-            <!-- Login to SignUp -->
-            <div id="mySignUpOverlay" class="SignUpOverlay">
-                <div class="wrapLogin">
-                    <span class="closebtnLogin" onclick="closeSignUpForm()" title="Close SignUpOverlay"> &#215 </span>
-                    <h2>註冊</h2>
-                    <form>
-                        <label for="" class="username"><b>使用者名稱</b></label>
-                        <input id="bgc" type="text" placeholder="使用者名稱" required>
-                        <label for="" class="Email"><b>Email</b></label>
-                        <input id="bgc" type="email" placeholder="Email" required>
-                        <label for="" class="password"><b>密碼</b></label>
-                        <input id="bgc" type="password" placeholder="密碼" required>
-                        <input type="submit" value="點我註冊">
-                    </form>
-                </div>
-            </div>
-            <script>
-                function closeSignUpForm() {
-                    document.getElementById("mySignUpOverlay").style.display = "none";
-                }
-            </script>
         </div>
     </div><!-- end navbar-->
 
@@ -264,7 +204,7 @@ body {
     transform: scale(0.8);
 }
 
-.login-button button {
+.login-button a {
     background-color: #EB6D20;  /* 設定背景色為橘色 */
     border-radius: 40px;  /* 設定邊框半徑為50px，創建長橢圓形效果 */
     box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.5);
@@ -274,21 +214,17 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* 設定文字陰影 */
 } 
 
-.login-button button:hover {
+.login-button a:hover {
     background-color: #846E82;
     color: #fff;
 }
 
-.login-button button span {
-    font-weight: bold;
-    font-size: 1em;
-}
 /* end navbar */
 
 /* login */
 .wrapLogin {
     width: 50%;  /* 修改的行 */
-    height: 60%;  /* 修改的行 */
+    height: 50%;  /* 修改的行 */
     position: absolute;  /* 修改的行 */
     top: 40%;  /* 修改的行 */
     left: 50%;  /* 修改的行 */
@@ -317,7 +253,7 @@ body {
     border-radius: 5px;
 }
 
-#bgc {
+.bgc {
     background-color: #808080;
     opacity: 0.5;  /* 根據你的需求調整 */
 }
@@ -571,7 +507,7 @@ body {
     background: url('/static/images/2024Menu.png') no-repeat center;
     background-size: auto 100%;
     width: 100vw;
-    height: 92vh;
+    height: 85vh;
     display: inline-block;
     opacity: 1; /* 設置圖片的不透明度為1 */
     margin-top: 20px;

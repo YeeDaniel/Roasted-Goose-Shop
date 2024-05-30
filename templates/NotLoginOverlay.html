@@ -6,22 +6,20 @@
     <title>SuccessAddToCartPage</title>
 </head>
 <body>
-    <div id="MySuccessRoastedGooseAddCartOverlay" class="SuccessRoastedGooseAddCartOverlay">
+    <div id="Login" class="SuccessRoastedGooseAddCartOverlay">
         <div class="wrapSuccess">
-            <span class="closebtnSuccess" onclick="closeRoastedGooseSuccessAddCartForm()" title="Close SuccessRoastedGooseAddCartOverlay"> &#215 </span>
-            <h2>已加入購物車</h2>
-            
+            <span class="closebtnSuccess" onclick="closeLogin()" title="Close SuccessRoastedGooseAddCartOverlay"> &#215 </span>
+            <h2>請先登入</h2>
         </div>
     </div>
-    <button class="openbtnSuccess" onclick="openRoastedGooseSuccessAddCartForm()">加入購物車</button>
     
     <script>
-        function openRoastedGooseSuccessAddCartForm() {
-            document.getElementById("MySuccessRoastedGooseAddCartOverlay").style.display = "block";
+        function openLogin() {
+            document.getElementById("Login").style.display = "block";
         }
     
-        function closeRoastedGooseSuccessAddCartForm() {
-            document.getElementById("MySuccessRoastedGooseAddCartOverlay").style.display = "none";
+        function closeLogin() {
+            document.getElementById("Login").style.display = "none";
         }
     </script>
 </body>
